@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "wildcard-file-command",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "This is an Obsidian plugin that allows creation of commands that open files matching a wildcard.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
