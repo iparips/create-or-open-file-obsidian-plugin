@@ -14,6 +14,10 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
 
 # Dev Notes
 
+## Toolchain
+
+I did this project using Bun, because it simplifies the typescript setup comparing to node + typescript, or ts-node. It doesn't even need a tsconfig.json.
+
 ## Releasing new releases
 
 - Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
