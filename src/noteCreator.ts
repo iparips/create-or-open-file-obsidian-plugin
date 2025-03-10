@@ -1,4 +1,4 @@
-import { Notice, App, Vault, TAbstractFile, TFile } from 'obsidian';
+import { Notice, App, TAbstractFile, TFile } from 'obsidian';
 import { format } from 'date-fns';
 
 export class NoteCreator {
@@ -16,7 +16,7 @@ export class NoteCreator {
         const templateFilePath = '00 - Meta/Templates/shopping-list-template.md';
         const currentShoppingListFolder = '01 - Journal/Weekly/Week-' + weekNumber;
         const currentShoppingListFile = currentShoppingListFolder + '/shopping-list-test.md';
-      
+
         // Check if the shopping list file already exists
         if (this.app.vault.getAbstractFileByPath(currentShoppingListFile)) {
           // Open existing file if it exists
@@ -27,24 +27,24 @@ export class NoteCreator {
           await this.createFileFromTemplate(templateFilePath, currentShoppingListFile);
         }
       }
-      
+
       private async createFileFromTemplate(templatePath: string, newFilePath: string) {
         const { vault } = this.app;
-      
+
         // Get the template file
         const templateFile: TAbstractFile|null = vault.getAbstractFileByPath(templatePath);
         if (!templateFile || !(templateFile instanceof TFile) ) {
           new Notice("Template file not found!");
           return;
         }
-      
+
         // Read the template content (this is an async operation)
         const templateContent = await vault.read(templateFile);
-      
+
         // Create the new file (this is also an async operation)
         await vault.create(newFilePath, templateContent);
         new Notice(`Created new file from template: ${newFilePath}`);
       }
-      
+
 }
 
