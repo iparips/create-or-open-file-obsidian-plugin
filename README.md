@@ -1,3 +1,5 @@
+# Note: This plugin is work in progress
+
 # About
 
 This plugin allows creation of an Obsidian command that can open or create a new file that matches the specified pattern. It can also populate the new file with a given template.
