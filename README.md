@@ -4,6 +4,12 @@ This plugin allows creation of an Obsidian command that can open or create a new
 
 For example, I use it to populate a weekly grocery shopping list inside my weekly notes folder.
 
+# Todo
+
+- [x] Proof of concept note creator with hardcoded file paths
+- [ ] Hook up configuration
+- [ ] Tidy up
+
 # Dev Notes
 
 ## Releasing new releases
