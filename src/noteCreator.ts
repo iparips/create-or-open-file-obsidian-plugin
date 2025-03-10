@@ -34,7 +34,7 @@ export class NoteCreator {
 	private async createAndOpenFile(folderPath: string, filePath: string, templateFilePath: string): Promise<string> {
 		return this.app.vault
 			.createFolder(folderPath)
-			.catch((error) => Promise.resolve(error)) // ignore error if folder already exists
+			.catch((error) => Promise.resolve(error)) // ignore error if folder exists
 			.then(() => this.readTemplate(templateFilePath))
 			.then((templateContent) => this.app.vault.create(filePath, templateContent))
 			.then(() => this.openFile(filePath, folderPath))
