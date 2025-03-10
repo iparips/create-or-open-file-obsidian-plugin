@@ -1,4 +1,5 @@
-import { App, Modal, Plugin } from 'obsidian';
+// import { App, Modal, Plugin } from 'obsidian';
+import { Plugin } from 'obsidian';
 import { SampleSettingTab } from './settings/settingsTab';
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants';
 import { NoteCreator } from './noteCreator';
@@ -42,19 +43,19 @@ export default class MyPlugin extends Plugin {
 	}
 }
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
+// class SampleModal extends Modal {
+// 	constructor(app: App) {
+// 		super(app);
+// 	}
+//
+// 	onOpen() {
+// 		const {contentEl} = this;
+// 		contentEl.setText('Woah!');
+// 	}
+//
+// 	onClose() {
+// 		const {contentEl} = this;
+// 		contentEl.empty();
+// 	}
+// }
 

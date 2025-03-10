@@ -1,10 +1,10 @@
 {
-	"id": "wildcard-file-command",
-	"name": "Wildcard File Command",
+	"id": "regex-file-open-or-create-command",
+	"name": "Regex File Open or Create Command",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
+	"description": "Allows users to create an obsidian command that opens or creates a file that matches a regex pattern.",
+	"author": "Ilya Paripsa",
 	"authorUrl": "https://obsidian.md",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false
