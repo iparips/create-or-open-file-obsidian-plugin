@@ -1,7 +1,7 @@
 export interface PluginSettings {
-	mySetting: string;
+	mySetting: string
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
-	mySetting: 'default'
+	mySetting: 'default',
 }
