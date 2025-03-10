@@ -5,7 +5,7 @@
 	"main": "main.js",
 	"type": "commonjs",
 	"scripts": {
-		"build": "bun build src/main.ts --outdir . --external obsidian --format cjs",
+		"build": "bun build src/main.ts --outdir . --external obsidian --format cjs --sourcemap",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "bunx eslint .",
 		"lint:fix": "bunx eslint . --fix",
