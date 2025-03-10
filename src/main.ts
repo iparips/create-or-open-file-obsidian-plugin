@@ -1,5 +1,4 @@
-// import { App, Modal, Plugin } from 'obsidian';
-import { Plugin } from 'obsidian'
+import { Notice, Plugin } from 'obsidian'
 import { SampleSettingTab } from './settings/settingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
 import { NoteCreator } from './noteCreator'
@@ -16,6 +15,7 @@ export default class MyPlugin extends Plugin {
 			name: "Open or create this week's shopping list",
 			callback: async () => {
 				await new NoteCreator(this.app).openOrCreateShoppingListFile()
+					.then(outcome => new Notice(outcome))
 			},
 		})
 
