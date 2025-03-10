@@ -1,5 +1,5 @@
 {
-	"name": "regex-file-open-or-create-command",
+	"name": "create-or-open-file",
 	"version": "1.0.0",
 	"description": "This is an Obsidian plugin that allows creation of commands that open files matching a regex.",
 	"main": "main.js",

@@ -11,8 +11,8 @@ export default class MyPlugin extends Plugin {
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
-			id: 'open-or-create-this-weeks-shopping-list',
-			name: "Open or create this week's shopping list",
+			id: 'this-weeks-shopping-list',
+			name: "This week's shopping list",
 			callback: async () => {
 				await new NoteCreator(this.app).openOrCreateShoppingListFile()
 					.then(outcome => new Notice(outcome))

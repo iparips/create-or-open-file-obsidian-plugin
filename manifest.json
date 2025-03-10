@@ -1,6 +1,6 @@
 {
-	"id": "regex-file-open-or-create-command",
-	"name": "Regex File Open or Create Command",
+	"id": "open-or-create-command",
+	"name": "Create or Open File",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "Allows users to create an obsidian command that opens or creates a file that matches a regex pattern.",
