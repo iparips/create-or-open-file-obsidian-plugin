@@ -1,4 +1,4 @@
-import { App, TAbstractFile, TFile } from 'obsidian'
+import type { App, TFile } from 'obsidian'
 
 export class NoteCreator {
 	app: App
@@ -7,14 +7,15 @@ export class NoteCreator {
 		this.app = app
 	}
 
-	public async openOrCreateFileFromTemplate(filePath: string, templateFilePath: string): Promise<string> {
-		const folderPath = filePath.substring(0, filePath.lastIndexOf('/'))
-		const folderExists = this.app.vault.getFolderByPath(folderPath)
-		const fileExists = this.app.vault.getAbstractFileByPath(filePath)
+	public async openOrCreateFileFromTemplate(noteFilePath: string, templateFilePath: string): Promise<string> {
+		const noteFileExists = this.app.vault.getFileByPath(noteFilePath)
+		const noteFolderPath = noteFilePath.substring(0, noteFilePath.lastIndexOf('/'))
 
-		return folderExists && fileExists
-			? this.openFile(filePath, folderPath)
-			: this.createAndOpenFile(folderPath, filePath, templateFilePath)
+		return noteFileExists
+			? this.openFile(noteFilePath, noteFolderPath)
+			: this.createFileAndFolder(noteFilePath, noteFolderPath, templateFilePath)
+				.then(() => this.openFile(noteFilePath, noteFolderPath))
+				.then(() => Promise.resolve(`Created new file from template: ${noteFilePath}`))
 	}
 
 	private async openFile(filePath: string, folder: string): Promise<string> {
@@ -24,21 +25,19 @@ export class NoteCreator {
 			.then(() => Promise.resolve('File opened successfully'))
 	}
 
-	private async createAndOpenFile(folderPath: string, filePath: string, templateFilePath: string): Promise<string> {
-		return this.app.vault
-			.createFolder(folderPath)
-			.catch((error) => Promise.resolve(error)) // ignore error if folder exists
-			.then(() => this.readTemplate(templateFilePath))
-			.then((templateContent) => this.app.vault.create(filePath, templateContent))
-			.then(() => this.openFile(filePath, folderPath))
-			.then(() => Promise.resolve(`Created new file from template: ${filePath}`))
-	}
+	private async createFileAndFolder(filePath: string, folderPath: string, templateFilePath: string): Promise<TFile> {
+		const templateFile = this.app.vault.getFileByPath(templateFilePath)
+		if (!templateFile) {
+			return Promise.reject('Template file not found')
+		}
 
-	private async readTemplate(templateFilePath: string): Promise<string> {
-		const { vault } = this.app
-		const templateFile: TAbstractFile | null = vault.getAbstractFileByPath(templateFilePath)
-		return templateFile && templateFile instanceof TFile
-			? vault.read(templateFile)
-			: Promise.reject('Template file not found')
+		const noteFolderExists = this.app.vault.getFolderByPath(folderPath)
+		if (!noteFolderExists) {
+			await this.app.vault.createFolder(folderPath)
+		}
+
+		return this.app.vault
+			.read(templateFile)
+			.then((templateContent: string) => this.app.vault.create(filePath, templateContent))
 	}
 }
