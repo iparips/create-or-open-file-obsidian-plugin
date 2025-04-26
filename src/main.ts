@@ -2,6 +2,7 @@ import { Notice, Plugin } from 'obsidian'
 import { SampleSettingTab } from './settings/settingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
 import { NoteCreator } from './noteCreator'
+import { format } from 'date-fns'
 
 export default class MyPlugin extends Plugin {
 	settings: PluginSettings
@@ -14,7 +15,12 @@ export default class MyPlugin extends Plugin {
 			id: 'this-weeks-shopping-list',
 			name: "This week's shopping list",
 			callback: async () => {
-				await new NoteCreator(this.app).openOrCreateShoppingListFile()
+				const templateFilePath = '00 - Meta/Templates/shopping-list-template.md'
+				const weekNumber = format(new Date(), 'II') // 'II' for 2-digit ISO week
+				const currentShoppingListFolder = '01 - Journal/Weekly/Week-' + weekNumber
+				const currentShoppingListFile = currentShoppingListFolder + '/shopping-list-test.md'
+
+				await new NoteCreator(this.app).openOrCreateFileFromTemplate(currentShoppingListFile, templateFilePath)
 					.then(outcome => new Notice(outcome))
 			},
 		})
