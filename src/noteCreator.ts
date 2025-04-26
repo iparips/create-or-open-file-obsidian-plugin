@@ -1,5 +1,4 @@
 import { App, TAbstractFile, TFile } from 'obsidian'
-import { format } from 'date-fns'
 
 export class NoteCreator {
 	app: App
@@ -8,20 +7,14 @@ export class NoteCreator {
 		this.app = app
 	}
 
-	public async openOrCreateShoppingListFile(): Promise<string> {
-		// Get the current week number
-		const weekNumber = format(new Date(), 'II') // 'II' for 2-digit ISO week
-
-		const templateFilePath = '00 - Meta/Templates/shopping-list-template.md'
-		const currentShoppingListFolder = '01 - Journal/Weekly/Week-' + weekNumber
-		const currentShoppingListFile = currentShoppingListFolder + '/shopping-list-test.md'
-
-		const folderExists = this.app.vault.getFolderByPath(currentShoppingListFolder)
-		const fileExists = this.app.vault.getAbstractFileByPath(currentShoppingListFile)
+	public async openOrCreateFileFromTemplate(filePath: string, templateFilePath: string): Promise<string> {
+		const folderPath = filePath.substring(0, filePath.lastIndexOf('/'))
+		const folderExists = this.app.vault.getFolderByPath(folderPath)
+		const fileExists = this.app.vault.getAbstractFileByPath(filePath)
 
 		return folderExists && fileExists
-			? this.openFile(currentShoppingListFile, currentShoppingListFolder)
-			: this.createAndOpenFile(currentShoppingListFolder, currentShoppingListFile, templateFilePath)
+			? this.openFile(filePath, folderPath)
+			: this.createAndOpenFile(folderPath, filePath, templateFilePath)
 	}
 
 	private async openFile(filePath: string, folder: string): Promise<string> {
