@@ -1,7 +1,7 @@
 import { Notice, Plugin } from 'obsidian'
 import { SampleSettingTab } from './settings/settingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
-import { NoteCreator } from './noteCreator'
+import { NoteCreator } from './notes/noteCreator'
 import { format } from 'date-fns'
 
 export default class MyPlugin extends Plugin {
