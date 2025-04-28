@@ -38,7 +38,7 @@ export default class MyPlugin extends Plugin {
 		this.settings.commands.forEach((command, index) => {
 			const commandId = `command-${index}`
 			this.commandIds.push(commandId)
-			
+
 			this.addCommand({
 				id: commandId,
 				name: command.commandName,
