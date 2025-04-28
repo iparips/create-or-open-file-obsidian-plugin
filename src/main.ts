@@ -18,14 +18,29 @@ function processPattern(pattern: string, date: Date): string {
 
 export default class MyPlugin extends Plugin {
 	settings: PluginSettings
+	private commandIds: string[] = []
 
 	async onload() {
 		await this.loadSettings()
+		this.registerCommands()
+		this.addSettingTab(new SettingTab(this.app, this))
+	}
 
-		// Add commands for each configuration
+	onunload() {
+		this.unregisterCommands()
+	}
+
+	private registerCommands() {
+		// Unregister any existing commands first
+		this.unregisterCommands()
+
+		// Register new commands
 		this.settings.commands.forEach((command, index) => {
+			const commandId = `command-${index}`
+			this.commandIds.push(commandId)
+			
 			this.addCommand({
-				id: `command-${index}`,
+				id: commandId,
 				name: command.commandName,
 				callback: async () => {
 					await this.loadSettings()
@@ -41,12 +56,15 @@ export default class MyPlugin extends Plugin {
 				},
 			})
 		})
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SettingTab(this.app, this))
 	}
 
-	onunload() {}
+	private unregisterCommands() {
+		this.commandIds.forEach(id => {
+			// @ts-ignore - Obsidian's type definitions don't include removeCommand
+			this.app.commands.removeCommand(`${this.manifest.id}:${id}`)
+		})
+		this.commandIds = []
+	}
 
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
@@ -54,5 +72,6 @@ export default class MyPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings)
+		this.registerCommands()
 	}
 }
