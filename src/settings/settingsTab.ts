@@ -74,6 +74,10 @@ export class SettingTab extends PluginSettingTab {
 			const addSetting = (container: HTMLElement) => {
 				const setting = new Setting(container)
 				setting.settingEl.style.padding = '0.30em 0'
+				setting.settingEl.style.display = 'grid'
+				setting.settingEl.style.gridTemplateColumns = '1fr 1fr'
+				setting.settingEl.style.gap = '0.5em'
+				setting.settingEl.style.alignItems = 'center'
 				return setting
 			}
 
@@ -81,57 +85,61 @@ export class SettingTab extends PluginSettingTab {
 			const nameSetting = addSetting(settingsGrid)
 				.setName('Command Name')
 				.setDesc('The name of the command that will appear in Obsidian command palette')
-				.addText((text) =>
+				.addText((text) => {
+					text.inputEl.style.width = '100%'
 					text
 						.setPlaceholder('Enter command name')
 						.setValue(command.commandName)
 						.onChange(async (value) => {
 							command.commandName = value
 							await this.plugin.saveSettings()
-						}),
-				)
+						})
+				})
 
 			// Template File Path
 			addSetting(settingsGrid)
 				.setName('Template File')
 				.setDesc('Path to the template file')
-				.addText((text) =>
+				.addText((text) => {
+					text.inputEl.style.width = '100%'
 					text
 						.setPlaceholder('00 - Meta/Templates/shopping-list-template.md')
 						.setValue(command.templateFilePath)
 						.onChange(async (value) => {
 							command.templateFilePath = value
 							await this.plugin.saveSettings()
-						}),
-				)
+						})
+				})
 
 			// Destination Folder Pattern
 			addSetting(settingsGrid)
 				.setName('Destination Folder')
 				.setDesc('Pattern for destination folder')
-				.addText((text) =>
+				.addText((text) => {
+					text.inputEl.style.width = '100%'
 					text
 						.setPlaceholder('01 - Journal/Weekly/Week-{week}')
 						.setValue(command.destinationFolderPattern)
 						.onChange(async (value) => {
 							command.destinationFolderPattern = value
 							await this.plugin.saveSettings()
-						}),
-				)
+						})
+				})
 
 			// File Name Pattern
 			addSetting(settingsGrid)
 				.setName('File Name')
 				.setDesc('Pattern for the file name')
-				.addText((text) =>
+				.addText((text) => {
+					text.inputEl.style.width = '100%'
 					text
 						.setPlaceholder('shopping-list')
 						.setValue(command.fileNamePattern)
 						.onChange(async (value) => {
 							command.fileNamePattern = value
 							await this.plugin.saveSettings()
-						}),
-				)
+						})
+				})
 		})
 	}
 }
