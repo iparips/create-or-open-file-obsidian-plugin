@@ -1,4 +1,3 @@
-import type { TFile } from 'obsidian'
 import type { ObsidianAdapter } from './obsidianAdapter'
 
 export class NoteCreator {
@@ -14,7 +13,7 @@ export class NoteCreator {
 			? this.obsidian.openFile(noteFilePath)
 			: this.obsidian
 					.createFileAndFolder(noteFilePath, templateFilePath)
-					.then((file: TFile) => this.obsidian.openFile(noteFilePath))
-					.then(() => Promise.resolve("File created and opened successfully."));
+					.then(() => this.obsidian.openFile(noteFilePath))
+					.then(() => Promise.resolve('Note created and opened'))
 	}
 }
