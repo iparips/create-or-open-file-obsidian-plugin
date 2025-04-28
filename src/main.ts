@@ -2,7 +2,7 @@ import { Notice, Plugin } from 'obsidian'
 import { SettingTab } from './settings/settingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
 import { NoteCreator } from './notes/noteCreator'
-import { format } from 'date-fns'
+import { format, addDays } from 'date-fns'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
 
 function processPattern(pattern: string, date: Date): string {
@@ -45,8 +45,10 @@ export default class MyPlugin extends Plugin {
 				callback: async () => {
 					await this.loadSettings()
 					const now = new Date()
-					const destinationFolder = processPattern(command.destinationFolderPattern, now)
-					const fileName = processPattern(command.fileNamePattern, now)
+					const isTomorrowCommand = command.commandName.toLowerCase().includes('tomorrow')
+					const targetDate = isTomorrowCommand ? addDays(now, 1) : now
+					const destinationFolder = processPattern(command.destinationFolderPattern, targetDate)
+					const fileName = processPattern(command.fileNamePattern, targetDate)
 					const currentFile = `${destinationFolder}/${fileName}`
 
 					await new NoteCreator(new ObsidianAdapter(this.app))
