@@ -1,79 +1,66 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockApp, mockTFile, mockTFolder, mockVault } from '../../test-support/__mocks__/obsidian'
+import { mockApp, mockTFile } from '../../test-support/__mocks__/obsidian'
 import { NoteCreator } from '../noteCreator'
-import type { App, Vault } from 'obsidian'
+import { ObsidianAdapter } from '../obsidianAdapter'
+import type { App } from 'obsidian'
 
 // Mock obsidian module for import purposes
 vi.mock('obsidian', () => import('../../test-support/__mocks__/obsidian'))
 
 describe('NoteCreator', () => {
 	let app: App
-	let vault: Vault
+	let adapter: ObsidianAdapter
 	let noteCreator: NoteCreator
-	const filePath = 'test/folder/file.md'
-	const templatePath = 'templates/template.md'
-	const folderPath = 'test/folder'
+	const noteFilePath = 'test/folder/file.md'
+	const templateFilePath = 'templates/template.md'
 
 	beforeEach(() => {
-		vault = mockVault()
-		app = mockApp(vault)
-		noteCreator = new NoteCreator(app)
+		app = mockApp()
+		adapter = new ObsidianAdapter(app)
+		noteCreator = new NoteCreator(adapter)
 	})
 
 	describe('openOrCreateFileFromTemplate', () => {
-		describe('when note file exists', () => {
-			it('opens note file', async () => {
-				const existingNoteFile = mockTFile(filePath)
-				vi.spyOn(vault, 'getFileByPath').mockReturnValue(existingNoteFile)
-				vi.spyOn(app.workspace, 'openLinkText').mockResolvedValue(undefined)
+		it('opens existing file when it exists', async () => {
+			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(true)
+			vi.spyOn(adapter, 'openFile').mockResolvedValue('File opened successfully')
 
-				const result = await noteCreator.openOrCreateFileFromTemplate(filePath, templatePath)
-				expect(result).toBe('File opened successfully')
-				expect(app.workspace.openLinkText).toHaveBeenCalledWith(filePath, folderPath)
-			})
+			const result = await noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)
+
+			expect(adapter.doesFileExist).toHaveBeenCalledWith(noteFilePath)
+			expect(adapter.openFile).toHaveBeenCalledWith(noteFilePath)
+			expect(result).toBe('File opened successfully')
 		})
 
-		describe('when note file does not exist', () => {
-			it('exits with error when template file is not found', async () => {
-				vi.spyOn(vault, 'getFileByPath').mockReturnValue(null)
-				vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
+		it('creates new file from template when file does not exist', async () => {
+			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(false)
+			vi.spyOn(adapter, 'createFileAndFolder').mockResolvedValue(mockTFile(noteFilePath))
+			vi.spyOn(adapter, 'openFile').mockResolvedValue('File opened successfully')
 
-				await expect(noteCreator.openOrCreateFileFromTemplate(filePath, templatePath)).rejects
-					.toBe('Template file not found')
-			})
+			const result = await noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)
 
-			it('creates note directory when note directory is missing', async () => {
-				vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
+			expect(adapter.doesFileExist).toHaveBeenCalledWith(noteFilePath)
+			expect(adapter.createFileAndFolder).toHaveBeenCalledWith(noteFilePath, templateFilePath)
+			expect(adapter.openFile).toHaveBeenCalledWith(noteFilePath)
+			expect(result).toBe('File opened successfully')
+		})
 
-				const templateFile = mockTFile(templatePath)
-				vi.spyOn(vault, 'getFileByPath').mockImplementation((path) => (path === templatePath ? templateFile : null))
-				vi.spyOn(vault, 'createFolder').mockResolvedValue(undefined)
-				vi.spyOn(vault, 'read').mockResolvedValue('template content')
-				vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))
-				vi.spyOn(app.workspace, 'openLinkText').mockResolvedValue(undefined)
+		it('propagates error when template file is not found', async () => {
+			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(false)
+			vi.spyOn(adapter, 'createFileAndFolder').mockRejectedValue('Template file not found')
 
-				const result = await noteCreator.openOrCreateFileFromTemplate(filePath, templatePath)
-				expect(result).toBe('Created new file from template: test/folder/file.md')
-				expect(vault.createFolder).toHaveBeenCalledWith(folderPath)
-				expect(vault.create).toHaveBeenCalledWith(filePath, 'template content')
-			})
+			await expect(noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)).rejects.toBe(
+				'Template file not found',
+			)
+		})
 
-			it('creates new files from template when note directory is present', async () => {
-				const templateFile = mockTFile(templatePath)
-				const existingFolder = mockTFolder(folderPath)
+		it('propagates error when file cannot be opened', async () => {
+			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(true)
+			vi.spyOn(adapter, 'openFile').mockRejectedValue('Could not open file')
 
-				vi.spyOn(vault, 'getFileByPath').mockImplementation((path) => (path === templatePath ? templateFile : null))
-				vi.spyOn(vault, 'getFolderByPath').mockReturnValue(existingFolder)
-				vi.spyOn(vault, 'read').mockResolvedValue('template content')
-				vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))
-				vi.spyOn(app.workspace, 'openLinkText').mockResolvedValue(undefined)
-
-				const result = await noteCreator.openOrCreateFileFromTemplate(filePath, templatePath)
-
-				expect(result).toBe('Created new file from template: test/folder/file.md')
-				expect(vault.createFolder).not.toHaveBeenCalled()
-				expect(vault.create).toHaveBeenCalledWith(filePath, 'template content')
-			})
+			await expect(noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)).rejects.toBe(
+				'Could not open file',
+			)
 		})
 	})
 })

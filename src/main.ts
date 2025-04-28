@@ -3,6 +3,7 @@ import { SampleSettingTab } from './settings/settingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
 import { NoteCreator } from './notes/noteCreator'
 import { format } from 'date-fns'
+import { ObsidianAdapter } from './notes/obsidianAdapter'
 
 export default class MyPlugin extends Plugin {
 	settings: PluginSettings
@@ -20,7 +21,7 @@ export default class MyPlugin extends Plugin {
 				const currentShoppingListFolder = '01 - Journal/Weekly/Week-' + weekNumber
 				const currentShoppingListFile = currentShoppingListFolder + '/shopping-list-test.md'
 
-				await new NoteCreator(this.app).openOrCreateFileFromTemplate(currentShoppingListFile, templateFilePath)
+				await new NoteCreator(new ObsidianAdapter(this.app)).openOrCreateFileFromTemplate(currentShoppingListFile, templateFilePath)
 					.then(outcome => new Notice(outcome))
 			},
 		})
