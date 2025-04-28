@@ -1,0 +1,16 @@
+{
+  "commands": [
+    {
+      "commandName": "Ilya's tomorrow's daily note",
+      "templateFilePath": "",
+      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+      "fileNamePattern": "{month}-{day}-{dow}.md"
+    },
+    {
+      "commandName": "Shopping list",
+      "templateFilePath": "00 - Meta/Templates/shopping-list-template.md",
+      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+      "fileNamePattern": "shopping-list.md"
+    }
+  ]
+}

@@ -103,7 +103,7 @@ export class SettingTab extends PluginSettingTab {
 			headerDiv.style.marginBottom = '0.25em'
 
 			headerDiv.createEl('h3', { text: `Command ${index + 1}` })
-			
+
 			// Move delete button to header
 			new Setting(headerDiv)
 				.addButton((button) =>
@@ -135,7 +135,7 @@ export class SettingTab extends PluginSettingTab {
 			}
 
 			// Command Name
-			const nameSetting = addSetting(settingsGrid)
+			addSetting(settingsGrid)
 				.setName('Command Name')
 				.setDesc('The name of the command that will appear in Obsidian command palette')
 				.addText((text) => {
