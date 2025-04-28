@@ -14,58 +14,96 @@ export class SettingTab extends PluginSettingTab {
 	display(): void {
 		const { containerEl } = this
 		containerEl.empty()
-		containerEl.createEl('h2', { text: 'Note Creation Settings' })
+		containerEl.createEl('h2', { text: 'Note Creation Commands' })
 
+		// Add button for new commands
 		new Setting(containerEl)
-			.setName('Command Name')
-			.setDesc('The name of the command that will appear in Obsidian command palette')
-			.addText((text) =>
-				text
-					.setPlaceholder('Enter command name')
-					.setValue(this.plugin.settings.commandName)
-					.onChange(async (value) => {
-						this.plugin.settings.commandName = value
+			.setName('Add New Command')
+			.setDesc('Add a new command configuration')
+			.addButton((button) =>
+				button
+					.setButtonText('Add Command')
+					.onClick(async () => {
+						this.plugin.settings.commands.push({
+							commandName: 'New Command',
+							templateFilePath: '',
+							destinationFolderPattern: '',
+							fileNamePattern: ''
+						})
 						await this.plugin.saveSettings()
+						this.display() // Refresh the display
 					}),
 			)
 
-		new Setting(containerEl)
-			.setName('Template File Path')
-			.setDesc('Path to the template file that will be used for new notes')
-			.addText((text) =>
-				text
-					.setPlaceholder('00 - Meta/Templates/shopping-list-template.md')
-					.setValue(this.plugin.settings.templateFilePath)
-					.onChange(async (value) => {
-						this.plugin.settings.templateFilePath = value
-						await this.plugin.saveSettings()
-					}),
-			)
+		// Display each command's settings
+		this.plugin.settings.commands.forEach((command, index) => {
+			const commandContainer = containerEl.createDiv('command-container')
+			commandContainer.createEl('h3', { text: `Command ${index + 1}` })
 
-		new Setting(containerEl)
-			.setName('Destination Folder Pattern')
-			.setDesc('Pattern for the destination folder. Use {week} for week number, {year} for year, etc.')
-			.addText((text) =>
-				text
-					.setPlaceholder('01 - Journal/Weekly/Week-{week}')
-					.setValue(this.plugin.settings.destinationFolderPattern)
-					.onChange(async (value) => {
-						this.plugin.settings.destinationFolderPattern = value
-						await this.plugin.saveSettings()
-					}),
-			)
+			new Setting(commandContainer)
+				.setName('Command Name')
+				.setDesc('The name of the command that will appear in Obsidian command palette')
+				.addText((text) =>
+					text
+						.setPlaceholder('Enter command name')
+						.setValue(command.commandName)
+						.onChange(async (value) => {
+							command.commandName = value
+							await this.plugin.saveSettings()
+						}),
+				)
 
-		new Setting(containerEl)
-			.setName('File Name Pattern')
-			.setDesc('Pattern for the file name. Use {date} for current date, {time} for current time, etc.')
-			.addText((text) =>
-				text
-					.setPlaceholder('shopping-list')
-					.setValue(this.plugin.settings.fileNamePattern)
-					.onChange(async (value) => {
-						this.plugin.settings.fileNamePattern = value
-						await this.plugin.saveSettings()
-					}),
-			)
+			new Setting(commandContainer)
+				.setName('Template File Path')
+				.setDesc('Path to the template file that will be used for new notes')
+				.addText((text) =>
+					text
+						.setPlaceholder('00 - Meta/Templates/shopping-list-template.md')
+						.setValue(command.templateFilePath)
+						.onChange(async (value) => {
+							command.templateFilePath = value
+							await this.plugin.saveSettings()
+						}),
+				)
+
+			new Setting(commandContainer)
+				.setName('Destination Folder Pattern')
+				.setDesc('Pattern for the destination folder. Use {week} for week number, {year} for year, etc.')
+				.addText((text) =>
+					text
+						.setPlaceholder('01 - Journal/Weekly/Week-{week}')
+						.setValue(command.destinationFolderPattern)
+						.onChange(async (value) => {
+							command.destinationFolderPattern = value
+							await this.plugin.saveSettings()
+						}),
+				)
+
+			new Setting(commandContainer)
+				.setName('File Name Pattern')
+				.setDesc('Pattern for the file name. Use {date} for current date, {time} for current time, etc.')
+				.addText((text) =>
+					text
+						.setPlaceholder('shopping-list')
+						.setValue(command.fileNamePattern)
+						.onChange(async (value) => {
+							command.fileNamePattern = value
+							await this.plugin.saveSettings()
+						}),
+				)
+
+			// Add delete button for each command
+			new Setting(commandContainer)
+				.addButton((button) =>
+					button
+						.setButtonText('Delete Command')
+						.setWarning()
+						.onClick(async () => {
+							this.plugin.settings.commands.splice(index, 1)
+							await this.plugin.saveSettings()
+							this.display() // Refresh the display
+						}),
+				)
+		})
 	}
 }
