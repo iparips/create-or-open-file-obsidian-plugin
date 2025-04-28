@@ -14,7 +14,7 @@ export class NoteCreator {
 			? this.obsidian.openFile(noteFilePath)
 			: this.obsidian
 					.createFileAndFolder(noteFilePath, templateFilePath)
-					.then((file: TFile) =>
-						this.obsidian.openFile(noteFilePath))
+					.then((file: TFile) => this.obsidian.openFile(noteFilePath))
+					.then(() => Promise.resolve("File created and opened successfully."));
 	}
 }
