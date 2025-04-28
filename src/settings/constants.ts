@@ -1,7 +1,13 @@
 export interface PluginSettings {
-	mySetting: string
+	commandName: string;
+	templateFilePath: string;
+	destinationFolderPattern: string;
+	fileNamePattern: string;
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
-	mySetting: 'default',
+	commandName: 'Weekly shopping list',
+	templateFilePath: '00 - Meta/Templates/shopping-list-template.md',
+	destinationFolderPattern: '01 - Journal/Weekly/Week-{week}',
+	fileNamePattern: 'shopping-list.md'
 }
