@@ -38,9 +38,47 @@ export class SettingTab extends PluginSettingTab {
 		// Display each command's settings
 		this.plugin.settings.commands.forEach((command, index) => {
 			const commandContainer = containerEl.createDiv('command-container')
-			commandContainer.createEl('h3', { text: `Command ${index + 1}` })
+			commandContainer.style.marginBottom = '0.5em'
+			commandContainer.style.padding = '0.25em'
+			commandContainer.style.border = '1px solid var(--background-modifier-border)'
+			commandContainer.style.borderRadius = '4px'
 
-			new Setting(commandContainer)
+			const headerDiv = commandContainer.createDiv()
+			headerDiv.style.display = 'flex'
+			headerDiv.style.justifyContent = 'space-between'
+			headerDiv.style.alignItems = 'center'
+			headerDiv.style.marginBottom = '0.25em'
+
+			headerDiv.createEl('h3', { text: `Command ${index + 1}` })
+			
+			// Move delete button to header
+			new Setting(headerDiv)
+				.addButton((button) =>
+					button
+						.setButtonText('Delete')
+						.setWarning()
+						.onClick(async () => {
+							this.plugin.settings.commands.splice(index, 1)
+							await this.plugin.saveSettings()
+							this.display() // Refresh the display
+						}),
+				)
+
+			// Create a grid layout for settings
+			const settingsGrid = commandContainer.createDiv()
+			settingsGrid.style.display = 'flex'
+			settingsGrid.style.flexDirection = 'column'
+			settingsGrid.style.gap = '0.25em'
+
+			// Add padding to all setting items
+			const addSetting = (container: HTMLElement) => {
+				const setting = new Setting(container)
+				setting.settingEl.style.padding = '0.30em 0'
+				return setting
+			}
+
+			// Command Name
+			const nameSetting = addSetting(settingsGrid)
 				.setName('Command Name')
 				.setDesc('The name of the command that will appear in Obsidian command palette')
 				.addText((text) =>
@@ -53,9 +91,10 @@ export class SettingTab extends PluginSettingTab {
 						}),
 				)
 
-			new Setting(commandContainer)
-				.setName('Template File Path')
-				.setDesc('Path to the template file that will be used for new notes')
+			// Template File Path
+			addSetting(settingsGrid)
+				.setName('Template File')
+				.setDesc('Path to the template file')
 				.addText((text) =>
 					text
 						.setPlaceholder('00 - Meta/Templates/shopping-list-template.md')
@@ -66,9 +105,10 @@ export class SettingTab extends PluginSettingTab {
 						}),
 				)
 
-			new Setting(commandContainer)
-				.setName('Destination Folder Pattern')
-				.setDesc('Pattern for the destination folder. Use {week} for week number, {year} for year, etc.')
+			// Destination Folder Pattern
+			addSetting(settingsGrid)
+				.setName('Destination Folder')
+				.setDesc('Pattern for destination folder')
 				.addText((text) =>
 					text
 						.setPlaceholder('01 - Journal/Weekly/Week-{week}')
@@ -79,9 +119,10 @@ export class SettingTab extends PluginSettingTab {
 						}),
 				)
 
-			new Setting(commandContainer)
-				.setName('File Name Pattern')
-				.setDesc('Pattern for the file name. Use {date} for current date, {time} for current time, etc.')
+			// File Name Pattern
+			addSetting(settingsGrid)
+				.setName('File Name')
+				.setDesc('Pattern for the file name')
 				.addText((text) =>
 					text
 						.setPlaceholder('shopping-list')
@@ -89,19 +130,6 @@ export class SettingTab extends PluginSettingTab {
 						.onChange(async (value) => {
 							command.fileNamePattern = value
 							await this.plugin.saveSettings()
-						}),
-				)
-
-			// Add delete button for each command
-			new Setting(commandContainer)
-				.addButton((button) =>
-					button
-						.setButtonText('Delete Command')
-						.setWarning()
-						.onClick(async () => {
-							this.plugin.settings.commands.splice(index, 1)
-							await this.plugin.saveSettings()
-							this.display() // Refresh the display
 						}),
 				)
 		})
