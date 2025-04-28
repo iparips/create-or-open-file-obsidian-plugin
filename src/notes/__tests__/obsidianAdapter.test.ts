@@ -62,11 +62,24 @@ describe('ObsidianAdapter', () => {
 	})
 
 	describe('createFileAndFolder', () => {
-		it('exits with error when template file is not found', async () => {
+		it('exits with error when template file is supplied but not found', async () => {
 			vi.spyOn(vault, 'getFileByPath').mockReturnValue(null)
 
 			await expect(adapter.createFileAndFolder(filePath, templatePath)).rejects
 				.toBe('Template file not found')
+		})
+
+		it('creates empty note when template file is not supplied', async () => {
+			vi.spyOn(vault, 'getFileByPath').mockReturnValue(null)
+			vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
+			vi.spyOn(vault, 'createFolder').mockResolvedValue(undefined)
+			vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))
+
+			await adapter.createFileAndFolder(filePath)
+
+			expect(vault.createFolder).toHaveBeenCalledWith(folderPath)
+			expect(vault.create).toHaveBeenCalledWith(filePath, '')
+			expect(vault.read).not.toHaveBeenCalled()
 		})
 
 		it('creates note directory when note directory is missing', async () => {
