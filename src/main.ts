@@ -35,6 +35,7 @@ export default class MyPlugin extends Plugin {
 				await new NoteCreator(new ObsidianAdapter(this.app))
 					.openOrCreateFileFromTemplate(currentShoppingListFile, this.settings.templateFilePath)
 					.then((outcome) => new Notice(outcome))
+					.catch((err) => new Notice(err))
 			},
 		})
 
