@@ -11,9 +11,9 @@ export interface PluginSettings {
 
 export const DEFAULT_SETTINGS: PluginSettings = {
 	commands: [{
-		commandName: 'Weekly shopping list',
-		templateFilePath: '00 - Meta/Templates/shopping-list-template.md',
-		destinationFolderPattern: '01 - Journal/Weekly/Week-{week}',
-		fileNamePattern: 'shopping-list.md'
+		commandName: 'eg: Weekly shopping list',
+		templateFilePath: 'eg: 00 - Meta/Templates/shopping-list-template.md',
+		destinationFolderPattern: 'eg: 01 - Journal/Weekly/Week-{week}',
+		fileNamePattern: 'eg: shopping-list.md'
 	}]
 }
