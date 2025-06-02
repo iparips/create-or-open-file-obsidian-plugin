@@ -25,7 +25,7 @@ describe('ObsidianAdapter', () => {
 			vi.spyOn(app.workspace, 'openLinkText').mockResolvedValue(undefined)
 
 			const result = await adapter.openFile(filePath, folderPath)
-			expect(result).toBe('File opened successfully')
+			expect(result).toBe('Note opened')
 			expect(app.workspace.openLinkText).toHaveBeenCalledWith(filePath, folderPath)
 		})
 
