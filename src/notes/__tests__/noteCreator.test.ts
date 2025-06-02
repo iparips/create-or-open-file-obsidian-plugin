@@ -23,26 +23,26 @@ describe('NoteCreator', () => {
 	describe('openOrCreateFileFromTemplate', () => {
 		it('opens existing file when it exists', async () => {
 			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(true)
-			vi.spyOn(adapter, 'openFile').mockResolvedValue('File opened successfully')
+			vi.spyOn(adapter, 'openFile').mockResolvedValue('Note opened')
 
 			const result = await noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)
 
 			expect(adapter.doesFileExist).toHaveBeenCalledWith(noteFilePath)
 			expect(adapter.openFile).toHaveBeenCalledWith(noteFilePath)
-			expect(result).toBe('File opened successfully')
+			expect(result).toBe('Note opened')
 		})
 
 		it('creates new file from template when file does not exist', async () => {
 			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(false)
-			vi.spyOn(adapter, 'createFileAndFolder').mockResolvedValue(mockTFile(noteFilePath))
-			vi.spyOn(adapter, 'openFile').mockResolvedValue('File opened successfully')
+			vi.spyOn(adapter, 'createFileAndFolder').mockResolvedValue('Note created')
+			vi.spyOn(adapter, 'openFile').mockResolvedValue('Note opened')
 
 			const result = await noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)
 
 			expect(adapter.doesFileExist).toHaveBeenCalledWith(noteFilePath)
 			expect(adapter.createFileAndFolder).toHaveBeenCalledWith(noteFilePath, templateFilePath)
 			expect(adapter.openFile).toHaveBeenCalledWith(noteFilePath)
-			expect(result).toBe('File opened successfully')
+			expect(result).toBe('Note created and opened')
 		})
 
 		it('propagates error when template file is not found', async () => {
