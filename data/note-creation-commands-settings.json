@@ -11,6 +11,12 @@
       "templateFilePath": "00 - Meta/Templates/shopping-list-template.md",
       "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
       "fileNamePattern": "shopping-list.md"
+    },
+    {
+      "commandName": "Weekly Plan",
+      "templateFilePath": "",
+      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+      "fileNamePattern": "plan"
     }
   ]
 }
