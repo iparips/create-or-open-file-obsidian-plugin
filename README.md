@@ -9,8 +9,17 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
 # Todo
 
 - [x] Proof of concept note creator with hardcoded file paths
-- [ ] Hook up configuration
-- [ ] Tidy up
+- [x] Hook up configuration
+- [ ] Convert settings panel to React
+- Add validations
+  - [ ] That settings > file name ends with MD
+  - [ ] That new command that was added has been configured
+  - [ ] That template file has .md extension
+- [ ] Move processPattern method from main.ts
+- [ ] Add test for importing config from file
+- [ ] Add test for exporting config to file
+- [ ] In leaf react components rename onChange to updateCallback or something like that so that those components can be responsible for validation
+  - as validations in each may differ
 
 # Dev Notes
 
