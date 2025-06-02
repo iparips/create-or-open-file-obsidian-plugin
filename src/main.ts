@@ -1,5 +1,5 @@
 import { Notice, Plugin } from 'obsidian'
-import { SettingTab } from './settings/settingsTab'
+import { SettingsTab } from './settings/SettingsTab'
 import { DEFAULT_SETTINGS, PluginSettings } from './settings/constants'
 import { NoteCreator } from './notes/noteCreator'
 import { format, addDays } from 'date-fns'
@@ -17,13 +17,13 @@ function processPattern(pattern: string, date: Date): string {
 }
 
 export default class MyPlugin extends Plugin {
-	settings: PluginSettings
+	settings!: PluginSettings
 	private commandIds: string[] = []
 
 	async onload() {
 		await this.loadSettings()
 		this.registerCommands()
-		this.addSettingTab(new SettingTab(this.app, this))
+		this.addSettingTab(new SettingsTab(this.app, this))
 	}
 
 	onunload() {
@@ -72,8 +72,9 @@ export default class MyPlugin extends Plugin {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
 	}
 
-	async saveSettings() {
-		await this.saveData(this.settings)
+	async saveSettings(newSettings: PluginSettings) {
+		this.settings = newSettings
+		await this.saveData(newSettings); // write to data.json
 		this.registerCommands()
 	}
 }

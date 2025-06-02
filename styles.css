@@ -9,6 +9,33 @@
   margin-bottom: 1em;
 }
 
+.button-container button {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background: var(--interactive-accent-hover);
+}
+
+button.mod-warning {
+  background: var(--text-error);
+  color: var(--text-on-accent);
+  border: none;
+  padding: 0.25em 0.5em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+button.mod-warning:hover {
+  opacity: 0.8;
+}
+
 .command-container {
   margin-bottom: 0.5em;
   padding: 0.25em;
@@ -37,8 +64,29 @@
   align-items: center;
 }
 
+.setting-item-name {
+  font-weight: 500;
+  color: var(--text-normal);
+}
+
+.setting-item-description {
+  font-size: 0.875em;
+  color: var(--text-muted);
+  margin-top: 0.125em;
+}
+
 .settings-grid .setting-item input {
   width: 100%;
+  padding: 0.375em;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+}
+
+.settings-grid .setting-item input:focus {
+  outline: none;
+  border-color: var(--interactive-accent);
 }
 
 /* Utility classes for common patterns */
