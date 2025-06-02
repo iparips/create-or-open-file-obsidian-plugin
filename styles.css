@@ -1,8 +1,91 @@
-/*
+/* Settings Tab Styles */
+.note-creation-commands-settings {
+  /* Main container styles */
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.button-container {
+  display: flex;
+  gap: 2em;
+  margin-bottom: 1em;
+}
 
-If your plugin does not need CSS, delete this file.
+.command-container {
+  margin-bottom: 0.5em;
+  padding: 0.25em;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+}
 
-*/
+.command-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25em;
+}
+
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.settings-grid .setting-item {
+  padding: 0.30em 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.settings-grid .setting-item input {
+  width: 100%;
+}
+
+/* Utility classes for common patterns */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-2 {
+  gap: 0.5em;
+}
+
+.gap-4 {
+  gap: 1em;
+}
+
+.mb-2 {
+  margin-bottom: 0.5em;
+}
+
+.mb-4 {
+  margin-bottom: 1em;
+}
+
+.p-1 {
+  padding: 0.25em;
+}
+
+.border {
+  border: 1px solid var(--background-modifier-border);
+}
+
+.rounded {
+  border-radius: 4px;
+}
+
+.w-full {
+  width: 100%;
+}
