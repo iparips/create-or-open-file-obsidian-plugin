@@ -20,6 +20,7 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
 - [ ] Move processPattern method from main.ts
 - [ ] Add test for importing config from file
 - [ ] Add test for exporting config to file
+- [ ] Improve user docs
 
 # Dev Notes
 
