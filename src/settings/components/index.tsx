@@ -48,10 +48,10 @@ export const SettingsComponent = ({ settings, saveSettings }: SettingsProps) => 
 
 	return (
 		<div className="note-creation-commands-settings">
-			<h2>Note Creation Commands</h2>
+			<h2>Create or Open File Settings</h2>
 
-			<ActionsHeader 
-				settings={localSettings} 
+			<ActionsHeader
+				settings={localSettings}
 				onSettingsImported={handleSettingsImported}
 				onAddCommand={addCommand}
 			/>
