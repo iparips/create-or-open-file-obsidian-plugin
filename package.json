@@ -4,7 +4,7 @@
 	"description": "This is an Obsidian plugin that allows creation of commands that open files matching a regex.",
 	"main": "main.js",
 	"scripts": {
-		"build": "bun run test && bun build src/main.ts --outdir . --entry-naming \"[name].[ext]\" --external obsidian --format cjs --sourcemap",
+		"build": "bun run lint && bun run test && bun build src/main.ts --outdir . --entry-naming \"[name].[ext]\" --external obsidian --format cjs --sourcemap",
 		"version:major": "bun run version-bump.mjs major",
 		"version:minor": "bun run version-bump.mjs minor",
 		"version:patch": "bun run version-bump.mjs patch",

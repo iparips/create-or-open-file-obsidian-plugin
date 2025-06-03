@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockApp, mockTFile } from '../../test-support/__mocks__/obsidian'
+import { mockApp } from '../../test-support/__mocks__/obsidian'
 import { NoteCreator } from '../noteCreator'
 import { ObsidianAdapter } from '../obsidianAdapter'
 import type { App } from 'obsidian'
