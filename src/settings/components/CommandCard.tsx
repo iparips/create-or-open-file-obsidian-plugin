@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import type { CommandSettings } from '../constants'
 import { CommandHeader } from './CommandHeader'
 import { SettingInput } from './SettingInput'
+import { VALIDATION_RULES, validateField, type ValidationRule } from '../utils/validation'
 
 interface ValidationErrors {
 	commandName?: string
@@ -20,36 +21,9 @@ interface CommandCardProps {
 export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpdate, onDelete }) => {
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 
-	const validateMandatory = (commandSettingKey: keyof CommandSettings, commandSettingValue: string) => {
-		const error = commandSettingValue.trim() === '' ? 'This field is mandatory' : undefined
-		setValidationErrors((prev) => ({
-			...prev,
-			[commandSettingKey]: error,
-		}))
-	}
-
-	// Special validation for fileNamePattern to check .md extension
-	const validateMandatoryAndEndsWithMd = (commandSettingKey: keyof CommandSettings, commandSettingValue: string) => {
-		let error: string | undefined = undefined
-
-		if (commandSettingValue.trim() === '') {
-			error = 'This field is mandatory'
-		} else if (!commandSettingValue.endsWith('.md')) {
-			error = 'File name should end with .md extension'
-		}
-
-		setValidationErrors((prev) => ({
-			...prev,
-			[commandSettingKey]: error,
-		}))
-	}
-
-	const validateEndsWithMd = (commandSettingKey: keyof CommandSettings, commandSettingValue: string) => {
-		const error = (commandSettingValue.trim() !== '' && !commandSettingValue.endsWith('.md')) ? 'File name should end with .md extension' : undefined
-		setValidationErrors((prev) => ({
-			...prev,
-			[commandSettingKey]: error,
-		}))
+	const validate = (field: keyof CommandSettings, value: string, rules: ValidationRule[]) => {
+		const errorMessage = validateField(value, rules)
+		setValidationErrors(prev => ({ ...prev, [field]: errorMessage }))
 	}
 
 	return (
@@ -63,7 +37,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					placeholder="Enter command name"
 					value={command.commandName}
 					onChange={(value) => onUpdate(index, 'commandName', value)}
-					onBlur={(value) => validateMandatory('commandName', value)}
+					onBlur={(value) => validate('commandName', value, [VALIDATION_RULES.required])}
 					error={validationErrors.commandName}
 				/>
 
@@ -73,7 +47,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					placeholder="00 - Meta/Templates/shopping-list-template.md"
 					value={command.templateFilePath}
 					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
-					onBlur={(value) => validateEndsWithMd('templateFilePath', value)}
+					onBlur={(value) => validate('templateFilePath', value, [VALIDATION_RULES.endsWithMd])}
 					error={validationErrors.templateFilePath}
 				/>
 
@@ -83,7 +57,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					placeholder="01 - Journal/Weekly/Week-{week}"
 					value={command.destinationFolderPattern}
 					onChange={(value) => onUpdate(index, 'destinationFolderPattern', value)}
-					onBlur={(value) => validateMandatory('destinationFolderPattern', value)}
+					onBlur={(value) => validate('destinationFolderPattern', value, [VALIDATION_RULES.required])}
 					error={validationErrors.destinationFolderPattern}
 				/>
 
@@ -93,7 +67,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
-					onBlur={(value) => validateMandatoryAndEndsWithMd('fileNamePattern', value)}
+					onBlur={(value) => validate('fileNamePattern', value, [VALIDATION_RULES.requiredAndEndsWithMd])}
 					error={validationErrors.fileNamePattern}
 				/>
 			</div>
