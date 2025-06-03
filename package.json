@@ -10,7 +10,7 @@
 		"version:patch": "bun run version-bump.mjs patch",
 		"lint": "bunx eslint .",
 		"lint:fix": "bunx eslint . --fix",
-		"format": "bunx prettier --write .",
+		"format": "bunx prettier --write . --log-level warn",
 		"test": "bunx vitest run"
 	},
 	"keywords": [],
@@ -20,6 +20,7 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.3.0",
 		"@testing-library/user-event": "^14.6.1",
+		"@types/file-saver": "^2.0.7",
 		"@types/node": "^16.11.6",
 		"@types/react": "^19.1.6",
 		"@types/react-dom": "^19.1.5",
@@ -37,8 +38,10 @@
 	},
 	"dependencies": {
 		"date-fns": "^4.1.0",
+		"file-saver": "^2.0.5",
 		"obsidian": "latest",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"use-file-picker": "^2.1.4"
 	}
 }
