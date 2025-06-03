@@ -9,4 +9,11 @@ export interface SelectedFiles<T> {
 		type: string
 		path: string
 	}>
-} 
+}
+
+// Validation types
+export interface ValidationError {
+	field: string
+	message: string
+	commandIndex?: number
+}
