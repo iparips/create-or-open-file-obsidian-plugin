@@ -21,10 +21,12 @@ export class SettingsTab extends PluginSettingTab {
 
 		// Create React root and render component
 		this.root = createRoot(containerEl)
-		this.root.render(React.createElement(SettingsComponent, {
-			settings: this.plugin.settings,
-			saveSettings: (newSettings: PluginSettings) => this.plugin.saveSettings(newSettings)
-		}))
+		this.root.render(
+			React.createElement(SettingsComponent, {
+				settings: this.plugin.settings,
+				saveSettings: (newSettings: PluginSettings) => this.plugin.saveSettings(newSettings),
+			}),
+		)
 	}
 
 	hide(): void {

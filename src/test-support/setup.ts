@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { vi } from 'vitest'
 
 vi.mock('obsidian', () => ({
 	App: vi.fn(),
@@ -7,4 +7,4 @@ vi.mock('obsidian', () => ({
 	TFolder: vi.fn(),
 	Notice: vi.fn(),
 	PluginSettingTab: vi.fn(),
-}));
+}))

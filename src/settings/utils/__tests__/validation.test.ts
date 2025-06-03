@@ -96,7 +96,9 @@ describe('validateField', () => {
 	})
 
 	it('should return second rule error when first passes', () => {
-		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe('File name should end with .md extension')
+		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe(
+			'File name should end with .md extension',
+		)
 	})
 
 	it('should work with single rule', () => {
@@ -106,13 +108,19 @@ describe('validateField', () => {
 
 	it('should work with combined rule', () => {
 		expect(validateField('', [VALIDATION_RULES.requiredAndEndsWithMd])).toBe('This field is mandatory')
-		expect(validateField('file.txt', [VALIDATION_RULES.requiredAndEndsWithMd])).toBe('File name should end with .md extension')
+		expect(validateField('file.txt', [VALIDATION_RULES.requiredAndEndsWithMd])).toBe(
+			'File name should end with .md extension',
+		)
 		expect(validateField('file.md', [VALIDATION_RULES.requiredAndEndsWithMd])).toBeUndefined()
 	})
 
 	it('should handle rule order correctly', () => {
 		// Order matters - first failing rule wins
-		expect(validateField('file.txt', [VALIDATION_RULES.endsWithMd, VALIDATION_RULES.required])).toBe('File name should end with .md extension')
-		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe('File name should end with .md extension')
+		expect(validateField('file.txt', [VALIDATION_RULES.endsWithMd, VALIDATION_RULES.required])).toBe(
+			'File name should end with .md extension',
+		)
+		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe(
+			'File name should end with .md extension',
+		)
 	})
-}) 
+})

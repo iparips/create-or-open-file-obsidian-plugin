@@ -61,7 +61,7 @@ export default class MyPlugin extends Plugin {
 	}
 
 	private unregisterCommands() {
-		this.commandIds.forEach(id => {
+		this.commandIds.forEach((id) => {
 			// @ts-ignore - Obsidian's type definitions don't include removeCommand
 			this.app.commands.removeCommand(`${this.manifest.id}:${id}`)
 		})
@@ -74,7 +74,7 @@ export default class MyPlugin extends Plugin {
 
 	async saveSettings(newSettings: PluginSettings) {
 		this.settings = newSettings
-		await this.saveData(newSettings); // write to data.json
+		await this.saveData(newSettings) // write to data.json
 		this.registerCommands()
 	}
 }
