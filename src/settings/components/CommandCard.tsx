@@ -30,7 +30,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 			<div className="settings-grid">
 				<SettingInput
 					name="Command Name"
-					description="The name of the command that will appear in Obsidian command palette"
+					description="The name will appear in Obsidian command palette"
 					placeholder="Enter command name"
 					value={command.commandName}
 					onChange={(value) => onUpdate(index, 'commandName', value)}

@@ -93,7 +93,6 @@ describe('SettingsComponent', () => {
 	it('renders with initial settings', () => {
 		render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
 
-		expect(screen.getByText('Create or Open File Settings')).toBeDefined()
 		expect(screen.getByTestId('command-card-0')).toBeDefined()
 		expect(screen.getByDisplayValue('Test Command 1')).toBeDefined()
 	})

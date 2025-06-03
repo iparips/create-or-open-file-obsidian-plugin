@@ -21,7 +21,7 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 }) => {
 	return (
 		<div className="setting-item">
-			<div>
+			<div className="setting-item-info">
 				<div className="setting-item-name">{name}</div>
 				<div className="setting-item-description">{description}</div>
 			</div>
