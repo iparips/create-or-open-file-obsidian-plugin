@@ -1,15 +1,13 @@
 import React from 'react'
 import type { PluginSettings } from '../constants'
 
-interface ImportExportSettingsProps {
+interface ActionsHeaderProps {
 	settings: PluginSettings
 	onSettingsImported: (settings: PluginSettings) => Promise<void>
+	onAddCommand: () => void
 }
 
-export const ImportExportSettings: React.FC<ImportExportSettingsProps> = ({
-	settings,
-	onSettingsImported
-}) => {
+export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettingsImported, onAddCommand }) => {
 	const exportSettings = () => {
 		const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' })
 		const url = URL.createObjectURL(blob)
@@ -43,6 +41,7 @@ export const ImportExportSettings: React.FC<ImportExportSettingsProps> = ({
 
 	return (
 		<div className="button-container">
+			<button onClick={onAddCommand}>Add Command</button>
 			<button onClick={importSettings}>Import Settings</button>
 			<button onClick={exportSettings}>Export Settings</button>
 		</div>

@@ -6,14 +6,33 @@ import { SettingsComponent } from '../index'
 import type { CommandSettings, PluginSettings } from '../../constants'
 
 // Mock the child components to isolate our tests
-vi.mock('../ImportExportSettings', () => ({
-	ImportExportSettings: ({ onSettingsImported }: { onSettingsImported: (settings: PluginSettings) => void }) => (
-		<div data-testid="import-export">
+vi.mock('../ActionsHeader', () => ({
+	ActionsHeader: ({ 
+		onSettingsImported, 
+		onAddCommand 
+	}: {
+		settings: PluginSettings,
+		onSettingsImported: (settings: PluginSettings) => void,
+		onAddCommand: () => void
+	}) => (
+		<div data-testid="actions-header">
 			<button
+				data-testid="add-command-button"
+				onClick={onAddCommand}
+			>
+				Add Command
+			</button>
+			<button
+				data-testid="import-button"
 				onClick={() =>
 					onSettingsImported({
 						commands: [
-							{ commandName: 'Imported', templateFilePath: '', destinationFolderPattern: '', fileNamePattern: '' },
+							{
+								commandName: 'Imported',
+								templateFilePath: '',
+								destinationFolderPattern: '',
+								fileNamePattern: '',
+							},
 						],
 					})
 				}
@@ -129,27 +148,29 @@ describe('SettingsComponent', () => {
 			const user = userEvent.setup()
 			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
 
-			const addButton = screen.getByText('Add Command')
+			const addButton = screen.getByTestId('add-command-button')
 			await user.click(addButton)
 
 			// Check that saveSettings was called with the expected commands
 			expect(mockSaveSettings).toHaveBeenCalled()
-			expect(mockSaveSettings.mock.lastCall).toEqual([{
-				commands: [
-					{
-						commandName: 'Test Command 1',
-						templateFilePath: 'template1.md',
-						destinationFolderPattern: 'folder1',
-						fileNamePattern: 'file1.md',
-					},
-					{
-						commandName: 'New Command',
-						templateFilePath: '',
-						destinationFolderPattern: '',
-						fileNamePattern: '',
-					},
-				],
-			}])
+			expect(mockSaveSettings.mock.lastCall).toEqual([
+				{
+					commands: [
+						{
+							commandName: 'New Command',
+							templateFilePath: '',
+							destinationFolderPattern: '',
+							fileNamePattern: '',
+						},
+						{
+							commandName: 'Test Command 1',
+							templateFilePath: 'template1.md',
+							destinationFolderPattern: 'folder1',
+							fileNamePattern: 'file1.md',
+						},
+					],
+				},
+			])
 		})
 	})
 
@@ -158,7 +179,7 @@ describe('SettingsComponent', () => {
 			const user = userEvent.setup()
 			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
 
-			const importButton = screen.getByText('Import')
+			const importButton = screen.getByTestId('import-button')
 			await user.click(importButton)
 
 			await waitFor(() => {

@@ -6,7 +6,7 @@
 .button-container {
   display: flex;
   gap: 2em;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 .button-container button {
@@ -38,16 +38,16 @@ button.mod-warning:hover {
 
 .command-container {
   margin-bottom: 0.5em;
-  padding: 0.25em;
+  padding: 1em;
   border: 1px solid var(--background-modifier-border);
   border-radius: 4px;
 }
 
-.command-header {
+.command-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 0.25em;
+  margin-top: 1em;
 }
 
 .settings-grid {

@@ -10,14 +10,14 @@ interface SettingInputProps {
 	error?: string
 }
 
-export const SettingInput: React.FC<SettingInputProps> = ({ 
-	name, 
-	description, 
-	placeholder, 
-	value, 
-	onChange, 
-	onBlur, 
-	error 
+export const SettingInput: React.FC<SettingInputProps> = ({
+	name,
+	description,
+	placeholder,
+	value,
+	onChange,
+	onBlur,
+	error,
 }) => {
 	return (
 		<div className="setting-item">
@@ -38,4 +38,4 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 			</div>
 		</div>
 	)
-} 
+}

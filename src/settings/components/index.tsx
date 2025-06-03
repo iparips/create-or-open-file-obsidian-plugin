@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { CommandSettings, PluginSettings } from '../constants'
 
-import { ImportExportSettings } from './ImportExportSettings'
+import { ActionsHeader } from './ActionsHeader'
 import { CommandCard } from './CommandCard'
 
 interface SettingsProps {
@@ -28,12 +28,15 @@ export const SettingsComponent = ({ settings, saveSettings }: SettingsProps) => 
 
 	const addCommand = async () => {
 		const newSettings = { ...localSettings }
-		newSettings.commands.push({
-			commandName: 'New Command',
-			templateFilePath: '',
-			destinationFolderPattern: '',
-			fileNamePattern: '',
-		})
+		newSettings.commands = [
+			{
+				commandName: 'New Command',
+				templateFilePath: '',
+				destinationFolderPattern: '',
+				fileNamePattern: '',
+			},
+			...newSettings.commands,
+		]
 		setLocalSettings(newSettings)
 		await saveSettings(newSettings)
 	}
@@ -47,23 +50,14 @@ export const SettingsComponent = ({ settings, saveSettings }: SettingsProps) => 
 		<div className="note-creation-commands-settings">
 			<h2>Note Creation Commands</h2>
 
-			<ImportExportSettings
-				settings={localSettings}
+			<ActionsHeader 
+				settings={localSettings} 
 				onSettingsImported={handleSettingsImported}
+				onAddCommand={addCommand}
 			/>
 
-			<div style={{ marginBottom: '1em' }}>
-				<button onClick={addCommand}>Add Command</button>
-			</div>
-
 			{localSettings.commands.map((command, index) => (
-				<CommandCard
-					key={index}
-					command={command}
-					index={index}
-					onUpdate={updateCommand}
-					onDelete={deleteCommand}
-				/>
+				<CommandCard key={index} command={command} index={index} onUpdate={updateCommand} onDelete={deleteCommand} />
 			))}
 		</div>
 	)

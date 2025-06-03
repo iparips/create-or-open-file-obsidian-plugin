@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import type { CommandSettings } from '../constants'
-import { CommandHeader } from './CommandHeader'
 import { SettingInput } from './SettingInput'
-import { VALIDATION_RULES, validateField, type ValidationRule } from '../utils/validation'
+import { validateField, VALIDATION_RULES, type ValidationRule } from '../utils/validation'
 
 interface ValidationErrors {
 	commandName?: string
@@ -23,13 +22,11 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 
 	const validate = (field: keyof CommandSettings, value: string, rules: ValidationRule[]) => {
 		const errorMessage = validateField(value, rules)
-		setValidationErrors(prev => ({ ...prev, [field]: errorMessage }))
+		setValidationErrors((prev) => ({ ...prev, [field]: errorMessage }))
 	}
 
 	return (
 		<div className="command-container">
-			<CommandHeader index={index} onDelete={onDelete} />
-
 			<div className="settings-grid">
 				<SettingInput
 					name="Command Name"
@@ -71,6 +68,13 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					error={validationErrors.fileNamePattern}
 				/>
 			</div>
+
+			<div className="command-footer">
+				<button className="mod-warning" onClick={() => onDelete(index)}>
+					Delete
+				</button>
+			</div>
+
 		</div>
 	)
 }
