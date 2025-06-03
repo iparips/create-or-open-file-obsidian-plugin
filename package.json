@@ -1,7 +1,7 @@
 {
 	"name": "create-or-open-file",
 	"version": "0.0.1",
-	"description": "This is an Obsidian plugin that allows creation of commands that open files matching a regex.",
+	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"main": "main.js",
 	"scripts": {
 		"build": "bun run lint && bun run test && bun build src/main.ts --outdir . --entry-naming \"[name].[ext]\" --external obsidian --format cjs --sourcemap",
