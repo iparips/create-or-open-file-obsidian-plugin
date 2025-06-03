@@ -1,5 +1,8 @@
 import React from 'react'
+import { saveAs } from 'file-saver'
+import { useFilePicker } from 'use-file-picker'
 import type { PluginSettings } from '../constants'
+import type { SelectedFiles } from '../types'
 
 interface ActionsHeaderProps {
 	settings: PluginSettings
@@ -8,41 +11,32 @@ interface ActionsHeaderProps {
 }
 
 export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettingsImported, onAddCommand }) => {
-	const exportSettings = () => {
-		const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' })
-		const url = URL.createObjectURL(blob)
-		const a = document.createElement('a')
-		a.href = url
-		a.download = 'note-creation-commands-settings.json'
-		document.body.appendChild(a)
-		a.click()
-		document.body.removeChild(a)
-		URL.revokeObjectURL(url)
-	}
-
-	const importSettings = () => {
-		const input = document.createElement('input')
-		input.type = 'file'
-		input.accept = '.json'
-		input.onchange = async (e) => {
-			const file = (e.target as HTMLInputElement).files?.[0]
-			if (file) {
-				try {
-					const content = await file.text()
-					const importedSettings = JSON.parse(content)
-					await onSettingsImported(importedSettings)
-				} catch (err) {
-					console.error('Failed to import settings:', err)
-				}
+	const { openFilePicker, loading } = useFilePicker({
+		accept: '.json',
+		multiple: false,
+		readAs: 'Text',
+		onFilesSuccessfullySelected: async ({ filesContent }: SelectedFiles<string>) => {
+			try {
+				const importedSettings: PluginSettings = JSON.parse(filesContent[0].content)
+				await onSettingsImported(importedSettings)
+			} catch (err: unknown) {
+				console.error('Failed to import settings:', err)
 			}
-		}
-		input.click()
+		},
+	})
+
+	const exportSettings = (): void => {
+		const dataStr: string = JSON.stringify(settings, null, 2)
+		const blob: Blob = new Blob([dataStr], { type: 'application/json' })
+		saveAs(blob, 'note-creation-commands-settings.json')
 	}
 
 	return (
 		<div className="button-container">
 			<button onClick={onAddCommand}>Add Command</button>
-			<button onClick={importSettings}>Import Settings</button>
+			<button onClick={openFilePicker} disabled={loading}>
+				{loading ? 'Loading...' : 'Import Settings'}
+			</button>
 			<button onClick={exportSettings}>Export Settings</button>
 		</div>
 	)
