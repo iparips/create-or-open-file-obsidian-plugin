@@ -7,9 +7,9 @@ import type { CommandSettings, PluginSettings } from '../../constants'
 
 // Mock the child components to isolate our tests
 vi.mock('../ActionsHeader', () => ({
-	ActionsHeader: ({ 
-		onSettingsImported, 
-		onAddCommand 
+	ActionsHeader: ({
+		onSettingsImported,
+		onAddCommand
 	}: {
 		settings: PluginSettings,
 		onSettingsImported: (settings: PluginSettings) => void,
@@ -93,7 +93,7 @@ describe('SettingsComponent', () => {
 	it('renders with initial settings', () => {
 		render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
 
-		expect(screen.getByText('Note Creation Commands')).toBeDefined()
+		expect(screen.getByText('Create or Open File Settings')).toBeDefined()
 		expect(screen.getByTestId('command-card-0')).toBeDefined()
 		expect(screen.getByDisplayValue('Test Command 1')).toBeDefined()
 	})
