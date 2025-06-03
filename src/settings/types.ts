@@ -17,3 +17,15 @@ export interface ValidationError {
 	message: string
 	commandIndex?: number
 }
+
+// Command settings types
+export interface CommandSettings {
+	commandName: string
+	templateFilePath?: string
+	destinationFolderPattern: string
+	fileNamePattern: string
+}
+
+export interface ImportedSettings {
+	commands: CommandSettings[]
+}

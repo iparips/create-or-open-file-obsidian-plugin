@@ -12,6 +12,10 @@ describe('VALIDATION_RULES', () => {
 			expect(VALIDATION_RULES.required('\t\n ')).toBe('This field is mandatory')
 		})
 
+		it('should return error for undefined', () => {
+			expect(VALIDATION_RULES.required(undefined)).toBe('This field is mandatory')
+		})
+
 		it('should return undefined for valid non-empty string', () => {
 			expect(VALIDATION_RULES.required('valid text')).toBeUndefined()
 			expect(VALIDATION_RULES.required('a')).toBeUndefined()
@@ -25,6 +29,10 @@ describe('VALIDATION_RULES', () => {
 	describe('endsWithMd', () => {
 		it('should return undefined for empty string (optional field)', () => {
 			expect(VALIDATION_RULES.endsWithMd('')).toBeUndefined()
+		})
+
+		it('should return undefined for undefined (optional field)', () => {
+			expect(VALIDATION_RULES.endsWithMd(undefined)).toBeUndefined()
 		})
 
 		it('should return undefined for whitespace-only string', () => {
@@ -54,6 +62,10 @@ describe('VALIDATION_RULES', () => {
 			expect(VALIDATION_RULES.requiredAndEndsWithMd('')).toBe('This field is mandatory')
 		})
 
+		it('should return error for undefined', () => {
+			expect(VALIDATION_RULES.requiredAndEndsWithMd(undefined)).toBe('This field is mandatory')
+		})
+
 		it('should return error for whitespace-only string', () => {
 			expect(VALIDATION_RULES.requiredAndEndsWithMd('   ')).toBe('This field is mandatory')
 		})
@@ -78,49 +90,55 @@ describe('VALIDATION_RULES', () => {
 
 describe('validateField', () => {
 	it('should return undefined when no rules provided', () => {
-		expect(validateField('any value', [])).toBeUndefined()
+		expect(validateField([], 'any value')).toBeUndefined()
 	})
 
 	it('should return undefined when all rules pass', () => {
-		expect(validateField('file.md', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBeUndefined()
+		expect(validateField([VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd], 'file.md')).toBeUndefined()
 	})
 
 	it('should return first failing rule error', () => {
 		// Empty string should fail required rule first
-		expect(validateField('', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe('This field is mandatory')
+		expect(validateField([VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd], '')).toBe('This field is mandatory')
 	})
 
 	it('should return first failing rule error when multiple rules fail', () => {
 		// Required rule should be checked first, even though endsWithMd would also fail
-		expect(validateField('', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe('This field is mandatory')
+		expect(validateField([VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd], '')).toBe('This field is mandatory')
 	})
 
 	it('should return second rule error when first passes', () => {
-		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe(
+		expect(validateField([VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd], 'file.txt')).toBe(
 			'File name should end with .md extension',
 		)
 	})
 
 	it('should work with single rule', () => {
-		expect(validateField('', [VALIDATION_RULES.required])).toBe('This field is mandatory')
-		expect(validateField('valid', [VALIDATION_RULES.required])).toBeUndefined()
+		expect(validateField([VALIDATION_RULES.required], '')).toBe('This field is mandatory')
+		expect(validateField([VALIDATION_RULES.required], 'valid')).toBeUndefined()
 	})
 
 	it('should work with combined rule', () => {
-		expect(validateField('', [VALIDATION_RULES.requiredAndEndsWithMd])).toBe('This field is mandatory')
-		expect(validateField('file.txt', [VALIDATION_RULES.requiredAndEndsWithMd])).toBe(
+		expect(validateField([VALIDATION_RULES.requiredAndEndsWithMd], '')).toBe('This field is mandatory')
+		expect(validateField([VALIDATION_RULES.requiredAndEndsWithMd], 'file.txt')).toBe(
 			'File name should end with .md extension',
 		)
-		expect(validateField('file.md', [VALIDATION_RULES.requiredAndEndsWithMd])).toBeUndefined()
+		expect(validateField([VALIDATION_RULES.requiredAndEndsWithMd], 'file.md')).toBeUndefined()
 	})
 
 	it('should handle rule order correctly', () => {
 		// Order matters - first failing rule wins
-		expect(validateField('file.txt', [VALIDATION_RULES.endsWithMd, VALIDATION_RULES.required])).toBe(
+		expect(validateField([VALIDATION_RULES.endsWithMd, VALIDATION_RULES.required], 'file.txt')).toBe(
 			'File name should end with .md extension',
 		)
-		expect(validateField('file.txt', [VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd])).toBe(
+		expect(validateField([VALIDATION_RULES.required, VALIDATION_RULES.endsWithMd], 'file.txt')).toBe(
 			'File name should end with .md extension',
 		)
+	})
+
+	it('should handle undefined values', () => {
+		expect(validateField([VALIDATION_RULES.required], undefined)).toBe('This field is mandatory')
+		expect(validateField([VALIDATION_RULES.endsWithMd], undefined)).toBeUndefined()
+		expect(validateField([VALIDATION_RULES.requiredAndEndsWithMd], undefined)).toBe('This field is mandatory')
 	})
 })

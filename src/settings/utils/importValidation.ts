@@ -1,106 +1,72 @@
-import type { ValidationError } from '../types'
+import type { ValidationError, CommandSettings } from '../types'
 import { validateField, VALIDATION_RULES, type ValidationRule } from './validation'
-
-// Type for command object during validation (less strict than CommandSettings)
-export interface Command {
-	commandName?: unknown
-	templateFilePath?: unknown
-	destinationFolderPattern?: unknown
-	fileNamePattern?: unknown
-}
+import { isImportedSettings, isCommandSettings } from './typeGuards'
 
 export interface FieldValidation {
-	field: string
-	value: unknown
+	field: keyof CommandSettings
+	value: string | undefined
 	rules: ValidationRule[]
-	label: string
 }
 
-export const buildFieldValidations = (command: Command): FieldValidation[] => {
+export const buildFieldValidations = (command: CommandSettings): FieldValidation[] => {
 	return [
 		{
 			field: 'commandName',
 			value: command.commandName,
 			rules: [VALIDATION_RULES.required],
-			label: 'Command name',
 		},
 		{
 			field: 'templateFilePath',
 			value: command.templateFilePath,
 			rules: [VALIDATION_RULES.endsWithMd],
-			label: 'Template file path',
 		},
 		{
 			field: 'destinationFolderPattern',
 			value: command.destinationFolderPattern,
 			rules: [VALIDATION_RULES.required],
-			label: 'Destination folder pattern',
 		},
 		{
 			field: 'fileNamePattern',
 			value: command.fileNamePattern,
 			rules: [VALIDATION_RULES.requiredAndEndsWithMd],
-			label: 'File name pattern',
 		},
 	]
 }
 
 export const validateCommand = (command: unknown, index: number): ValidationError[] => {
-	const errors: ValidationError[] = []
 	const commandNumber = index + 1
 
-	if (!command || typeof command !== 'object') {
-		errors.push({
-			field: 'command',
-			message: `Command ${commandNumber} is not a valid object`,
-			commandIndex: index,
-		})
-		return errors
+	if (!isCommandSettings(command)) {
+		return [
+			{
+				field: 'command',
+				message: `Command ${commandNumber} is not a valid object or has invalid field types`,
+				commandIndex: index,
+			},
+		]
 	}
 
-	const fieldValidations = buildFieldValidations(command as Command)
+	const fieldValidations = buildFieldValidations(command)
 
-	fieldValidations.forEach(({ field, value, rules, label }) => {
-		if (typeof value !== 'string') {
+	const errors: ValidationError[] = []
+	fieldValidations.forEach(({ field, value, rules }) => {
+		const fieldError = validateField(rules, value)
+		if (fieldError) {
 			errors.push({
 				field,
-				message: `Command ${commandNumber}: ${label} must be a string`,
+				message: `Command ${commandNumber}: ${fieldError}`,
 				commandIndex: index,
 			})
-		} else {
-			const fieldError = validateField(value, rules)
-			if (fieldError) {
-				errors.push({
-					field,
-					message: `Command ${commandNumber}: ${fieldError}`,
-					commandIndex: index,
-				})
-			}
 		}
 	})
 
 	return errors
 }
 
-export const validateImportedSettings = (data: any): { isValid: boolean; errors: ValidationError[] } => {
-	const errors: ValidationError[] = []
-
-	// Check if data exists and has the right structure
-	if (!data || typeof data !== 'object') {
-		errors.push({ field: 'root', message: 'Invalid file format: expected JSON object' })
-		return { isValid: false, errors }
+export const validateImportedSettings = (data: unknown): { isValid: boolean; errors: ValidationError[] } => {
+	if (!isImportedSettings(data)) {
+		return { isValid: false, errors: [{ field: 'root', message: 'Invalid data format' }] }
 	}
-
-	if (!data.commands || !Array.isArray(data.commands)) {
-		errors.push({ field: 'commands', message: 'Invalid format: missing or invalid commands array' })
-		return { isValid: false, errors }
-	}
-
-	// Validate each command using the extracted function
-	data.commands.forEach((command: any, index: number) => {
-		const commandErrors = validateCommand(command, index)
-		errors.push(...commandErrors)
-	})
-
+	const errors = data.commands.flatMap((command, index) => validateCommand(command, index))
 	return { isValid: errors.length === 0, errors }
 }
