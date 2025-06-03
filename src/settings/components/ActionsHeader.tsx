@@ -22,7 +22,8 @@ export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettin
 		accept: '.json',
 		multiple: false,
 		readAs: 'Text',
-		onFilesSuccessfullySelected: (selectedFiles: SelectedFiles<string>) => processImportedSettings(selectedFiles, onSettingsImported),
+		onFilesSuccessfullySelected: (selectedFiles: SelectedFiles<string>) =>
+			processImportedSettings(selectedFiles, onSettingsImported),
 	})
 
 	return (

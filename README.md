@@ -11,11 +11,11 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
 - [x] Proof of concept note creator with hardcoded file paths
 - [x] Hook up configuration
 - [x] Convert settings panel to React
-- [ ] Add config validations
+- [x] Add config validations
   - [x] That settings > file name ends with MD
   - [x] That new command that was added has been configured
   - [x] That template file has .md extension
-  - [ ] Apply same validations to configuration imported from file
+  - [x] Apply same validations to configuration imported from file
 - [x] Make configuration responsive
 - [ ] Move processPattern method from main.ts
 - [ ] Add test for importing config from file
