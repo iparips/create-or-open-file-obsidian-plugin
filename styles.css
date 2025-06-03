@@ -89,6 +89,18 @@ button.mod-warning:hover {
   border-color: var(--interactive-accent);
 }
 
+/* Error States */
+.error-message {
+  color: var(--text-error);
+  font-size: 0.75em;
+  margin-bottom: 0.25em;
+  display: block;
+}
+
+.settings-grid .setting-item input.error {
+  border-color: var(--text-error);
+}
+
 /* Utility classes for common patterns */
 .flex {
   display: flex;

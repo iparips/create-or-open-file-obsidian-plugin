@@ -26,11 +26,10 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 				<div className="setting-item-description">{description}</div>
 			</div>
 			<div>
-				{error && <div style={{ color: 'red', fontSize: '12px', marginBottom: '4px' }}>{error}</div>}
+				{error && <div className="error-message">{error}</div>}
 				<input
 					type="text"
 					className={`w-full ${error ? 'error' : ''}`}
-					style={{ borderColor: error ? 'red' : undefined }}
 					placeholder={placeholder}
 					value={value}
 					onChange={(e) => onChange(e.target.value)}
