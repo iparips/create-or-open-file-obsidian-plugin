@@ -1,11 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { mockApp } from '../../test-support/__mocks__/obsidian'
 import { NoteCreator } from '../noteCreator'
 import { ObsidianAdapter } from '../obsidianAdapter'
 import type { App } from 'obsidian'
 
+// Import mock functions directly
+import * as obsidianMocks from '../../test-support/__mocks__/obsidian'
+
 // Mock obsidian module for import purposes
-vi.mock('obsidian', () => import('../../test-support/__mocks__/obsidian'))
+vi.mock('obsidian', () => obsidianMocks)
 
 describe('NoteCreator', () => {
 	let app: App
@@ -15,7 +17,7 @@ describe('NoteCreator', () => {
 	const templateFilePath = 'templates/template.md'
 
 	beforeEach(() => {
-		app = mockApp()
+		app = obsidianMocks.mockApp()
 		adapter = new ObsidianAdapter(app)
 		noteCreator = new NoteCreator(adapter)
 	})
