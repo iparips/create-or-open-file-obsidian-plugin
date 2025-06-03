@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import type { CommandSettings } from '../constants'
 import { CommandHeader } from './CommandHeader'
-import { CommandName } from './CommandName'
-import { TemplateFile } from './TemplateFile'
-import { DestinationFolder } from './DestinationFolder'
-import { FileName } from './FileName'
+import { SettingInput } from './SettingInput'
 
 interface ValidationErrors {
 	commandName?: string
@@ -60,28 +57,40 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 			<CommandHeader index={index} onDelete={onDelete} />
 
 			<div className="settings-grid">
-				<CommandName
+				<SettingInput
+					name="Command Name"
+					description="The name of the command that will appear in Obsidian command palette"
+					placeholder="Enter command name"
 					value={command.commandName}
 					onChange={(value) => onUpdate(index, 'commandName', value)}
 					onBlur={(value) => validateMandatory('commandName', value)}
 					error={validationErrors.commandName}
 				/>
 
-				<TemplateFile
+				<SettingInput
+					name="Template File"
+					description="Path to the template file"
+					placeholder="00 - Meta/Templates/shopping-list-template.md"
 					value={command.templateFilePath}
 					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
 					onBlur={(value) => validateEndsWithMd('templateFilePath', value)}
 					error={validationErrors.templateFilePath}
 				/>
 
-				<DestinationFolder
+				<SettingInput
+					name="Destination Folder"
+					description="Pattern for destination folder"
+					placeholder="01 - Journal/Weekly/Week-{week}"
 					value={command.destinationFolderPattern}
 					onChange={(value) => onUpdate(index, 'destinationFolderPattern', value)}
 					onBlur={(value) => validateMandatory('destinationFolderPattern', value)}
 					error={validationErrors.destinationFolderPattern}
 				/>
 
-				<FileName
+				<SettingInput
+					name="File Name"
+					description="Pattern for the file name"
+					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
 					onBlur={(value) => validateMandatoryAndEndsWithMd('fileNamePattern', value)}
