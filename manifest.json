@@ -3,7 +3,7 @@
 	"name": "Create or Open File",
 	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Allows users to create an obsidian command that opens or creates a file that matches a regex pattern.",
+	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"author": "Ilya Paripsa",
 	"authorUrl": "https://obsidian.md",
 	"fundingUrl": "https://obsidian.md/pricing",
