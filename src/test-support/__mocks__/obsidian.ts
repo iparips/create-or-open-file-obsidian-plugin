@@ -29,30 +29,32 @@ export const mockTFolder = (path: string): TFolder => ({
 	vault: mockVault(),
 })
 
-export const mockVault = (): Vault => ({
-	adapter: {},
-	configDir: '',
-	getName: () => 'mock-vault',
-	getFileByPath: vi.fn(),
-	getFolderByPath: vi.fn().mockImplementation((path: string) => null),
-	getAbstractFileByPath: vi.fn().mockImplementation((path: string) => null),
-	createFolder: vi.fn().mockImplementation((path: string) => Promise.resolve(mockTFolder(path))),
-	create: vi.fn().mockImplementation((path: string, data: string) => Promise.resolve(mockTFile(path))),
-	read: vi.fn().mockImplementation((file: TFile) => Promise.resolve('')),
-} as unknown as Vault)
+export const mockVault = (): Vault =>
+	({
+		adapter: {},
+		configDir: '',
+		getName: () => 'mock-vault',
+		getFileByPath: vi.fn(),
+		getFolderByPath: vi.fn().mockImplementation((path: string) => null),
+		getAbstractFileByPath: vi.fn().mockImplementation((path: string) => null),
+		createFolder: vi.fn().mockImplementation((path: string) => Promise.resolve(mockTFolder(path))),
+		create: vi.fn().mockImplementation((path: string, data: string) => Promise.resolve(mockTFile(path))),
+		read: vi.fn().mockImplementation((file: TFile) => Promise.resolve('')),
+	}) as unknown as Vault
 
-export const mockApp = (vault = mockVault()): App => ({
-	vault,
-	workspace: {
-		openLinkText: vi.fn().mockImplementation((linktext: string, sourcePath: string) => Promise.resolve()),
-	},
-	metadataCache: {},
-	fileManager: {},
-	commands: {},
-	plugins: {},
-	internalPlugins: {},
-	lastEvent: null,
-} as unknown as App)
+export const mockApp = (vault = mockVault()): App =>
+	({
+		vault,
+		workspace: {
+			openLinkText: vi.fn().mockImplementation((linktext: string, sourcePath: string) => Promise.resolve()),
+		},
+		metadataCache: {},
+		fileManager: {},
+		commands: {},
+		plugins: {},
+		internalPlugins: {},
+		lastEvent: null,
+	}) as unknown as App
 
 export function getModifiers(e: KeyboardEvent): string | null {
 	const modifiers: string[] = []

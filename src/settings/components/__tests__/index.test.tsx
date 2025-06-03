@@ -9,17 +9,14 @@ import type { CommandSettings, PluginSettings } from '../../constants'
 vi.mock('../ActionsHeader', () => ({
 	ActionsHeader: ({
 		onSettingsImported,
-		onAddCommand
+		onAddCommand,
 	}: {
-		settings: PluginSettings,
-		onSettingsImported: (settings: PluginSettings) => void,
+		settings: PluginSettings
+		onSettingsImported: (settings: PluginSettings) => void
 		onAddCommand: () => void
 	}) => (
 		<div data-testid="actions-header">
-			<button
-				data-testid="add-command-button"
-				onClick={onAddCommand}
-			>
+			<button data-testid="add-command-button" onClick={onAddCommand}>
 				Add Command
 			</button>
 			<button

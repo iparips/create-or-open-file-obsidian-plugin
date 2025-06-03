@@ -74,7 +74,6 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					Delete
 				</button>
 			</div>
-
 		</div>
 	)
 }

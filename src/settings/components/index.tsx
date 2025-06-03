@@ -48,11 +48,7 @@ export const SettingsComponent = ({ settings, saveSettings }: SettingsProps) => 
 
 	return (
 		<div className="note-creation-commands-settings">
-			<ActionsHeader
-				settings={localSettings}
-				onSettingsImported={handleSettingsImported}
-				onAddCommand={addCommand}
-			/>
+			<ActionsHeader settings={localSettings} onSettingsImported={handleSettingsImported} onAddCommand={addCommand} />
 			{localSettings.commands.map((command, index) => (
 				<CommandCard key={index} command={command} index={index} onUpdate={updateCommand} onDelete={deleteCommand} />
 			))}

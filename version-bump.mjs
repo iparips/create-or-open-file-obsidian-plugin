@@ -3,8 +3,8 @@ import { readFileSync, writeFileSync } from 'fs'
 // Get bump type from command line argument
 const bumpType = process.argv[2]?.toLowerCase()
 if (!bumpType || !['major', 'minor', 'patch'].includes(bumpType)) {
-    console.error('Please specify version bump type: major, minor, or patch')
-    process.exit(1)
+	console.error('Please specify version bump type: major, minor, or patch')
+	process.exit(1)
 }
 
 // Read current version from package.json
@@ -14,15 +14,15 @@ const [major, minor, patch] = packageJson.version.split('.').map(Number)
 // Calculate new version based on bump type
 let newVersion
 switch (bumpType) {
-    case 'major':
-        newVersion = `${major + 1}.0.0`
-        break
-    case 'minor':
-        newVersion = `${major}.${minor + 1}.0`
-        break
-    case 'patch':
-        newVersion = `${major}.${minor}.${patch + 1}`
-        break
+	case 'major':
+		newVersion = `${major + 1}.0.0`
+		break
+	case 'minor':
+		newVersion = `${major}.${minor + 1}.0`
+		break
+	case 'patch':
+		newVersion = `${major}.${minor}.${patch + 1}`
+		break
 }
 
 // Update package.json with new version

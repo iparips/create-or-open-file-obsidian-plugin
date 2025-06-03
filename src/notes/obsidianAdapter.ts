@@ -33,7 +33,7 @@ export class ObsidianAdapter {
 		}
 		return this.getTemplateContentOrEmpty(templateFilePath)
 			.then((templateContent: string) => this.app.vault.create(filePath, templateContent))
-			.then(() => Promise.resolve("Note created"))
+			.then(() => Promise.resolve('Note created'))
 	}
 
 	private getTemplateContentOrEmpty(templateFilePath?: string): Promise<string> {
