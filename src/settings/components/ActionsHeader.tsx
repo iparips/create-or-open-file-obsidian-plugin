@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver'
 import { useFilePicker } from 'use-file-picker'
 import type { PluginSettings } from '../constants'
 import { processImportedSettings } from './ActionsHeader.utils'
-import type { SelectedFiles } from '../types'
+import type { SelectedFiles } from '../../types'
 
 interface ActionsHeaderProps {
 	settings: PluginSettings

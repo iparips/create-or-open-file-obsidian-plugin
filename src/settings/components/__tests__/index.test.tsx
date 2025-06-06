@@ -3,7 +3,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { SettingsComponent } from '../index'
-import type { CommandSettings, PluginSettings } from '../../constants'
+import type { CommandConfig, PluginSettings } from '../../../types'
 
 // Mock the child components to isolate our tests
 vi.mock('../ActionsHeader', () => ({
@@ -23,7 +23,7 @@ vi.mock('../ActionsHeader', () => ({
 				data-testid="import-button"
 				onClick={() =>
 					onSettingsImported({
-						commands: [
+						commandConfigs: [
 							{
 								commandName: 'Imported',
 								templateFilePath: '',
@@ -47,9 +47,9 @@ vi.mock('../CommandCard', () => ({
 		onUpdate,
 		onDelete,
 	}: {
-		command: CommandSettings
+		command: CommandConfig
 		index: number
-		onUpdate: (index: number, field: keyof CommandSettings, value: string) => void
+		onUpdate: (index: number, field: keyof CommandConfig, value: string) => void
 		onDelete: (index: number) => void
 	}) => (
 		<div data-testid={`command-card-${index}`}>
@@ -72,7 +72,7 @@ describe('SettingsComponent', () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
 		mockSettings = {
-			commands: [
+			commandConfigs: [
 				{
 					commandName: 'Test Command 1',
 					templateFilePath: 'template1.md',
@@ -88,7 +88,7 @@ describe('SettingsComponent', () => {
 	})
 
 	it('renders with initial settings', () => {
-		render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+		render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 		expect(screen.getByTestId('command-card-0')).toBeDefined()
 		expect(screen.getByDisplayValue('Test Command 1')).toBeDefined()
@@ -97,7 +97,7 @@ describe('SettingsComponent', () => {
 	describe('updateCommand', () => {
 		it('updates local state and calls saveSettings when command name is changed', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			const commandNameInput = screen.getByTestId('command-name-0') as HTMLInputElement
 
@@ -110,7 +110,7 @@ describe('SettingsComponent', () => {
 			// saveSettings should be called with updated settings
 			await waitFor(() => {
 				expect(mockSaveSettings).toHaveBeenCalledWith({
-					commands: [
+					commandConfigs: [
 						{
 							commandName: 'Updated Command Name',
 							templateFilePath: 'template1.md',
@@ -126,14 +126,14 @@ describe('SettingsComponent', () => {
 	describe('deleteCommand', () => {
 		it('removes command and calls saveSettings', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			const deleteButton = screen.getByTestId('delete-0')
 			await user.click(deleteButton)
 
 			await waitFor(() => {
 				expect(mockSaveSettings).toHaveBeenCalledWith({
-					commands: [], // No commands remain after deleting the only one
+					commandConfigs: [], // No commands remain after deleting the only one
 				})
 			})
 		})
@@ -142,7 +142,7 @@ describe('SettingsComponent', () => {
 	describe('addCommand', () => {
 		it('adds new command with default values and calls saveSettings', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			const addButton = screen.getByTestId('add-command-button')
 			await user.click(addButton)
@@ -151,7 +151,7 @@ describe('SettingsComponent', () => {
 			expect(mockSaveSettings).toHaveBeenCalled()
 			expect(mockSaveSettings.mock.lastCall).toEqual([
 				{
-					commands: [
+					commandConfigs: [
 						{
 							commandName: 'New Command',
 							templateFilePath: '',
@@ -173,14 +173,14 @@ describe('SettingsComponent', () => {
 	describe('handleSettingsImported', () => {
 		it('updates settings when import button is clicked', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			const importButton = screen.getByTestId('import-button')
 			await user.click(importButton)
 
 			await waitFor(() => {
 				expect(mockSaveSettings).toHaveBeenCalledWith({
-					commands: [
+					commandConfigs: [
 						{
 							commandName: 'Imported',
 							templateFilePath: '',
@@ -196,7 +196,7 @@ describe('SettingsComponent', () => {
 	describe('local state management', () => {
 		it('maintains local state independently of prop changes', async () => {
 			const user = userEvent.setup()
-			const { rerender } = render(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			const { rerender } = render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			// Change local state
 			const commandNameInput = screen.getByTestId('command-name-0') as HTMLInputElement
@@ -206,7 +206,7 @@ describe('SettingsComponent', () => {
 			expect(commandNameInput.value).toBe('Local Change')
 
 			// Re-render with same props (simulating parent not re-rendering yet)
-			rerender(<SettingsComponent settings={mockSettings} saveSettings={mockSaveSettings} />)
+			rerender(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
 
 			// Local state should persist
 			expect(commandNameInput.value).toBe('Local Change')

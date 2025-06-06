@@ -131,7 +131,7 @@ describe('isCommandSettings', () => {
 describe('isImportedSettings', () => {
 	it('should return true for valid imported settings', () => {
 		const validData = {
-			commands: [
+			commandConfigs: [
 				{
 					commandName: 'test-command-1',
 					templateFilePath: 'template.md',
@@ -150,7 +150,7 @@ describe('isImportedSettings', () => {
 	})
 
 	it('should return true for empty commands array', () => {
-		expect(isImportedSettings({ commands: [] })).toBe(true)
+		expect(isImportedSettings({ commandConfigs: [] })).toBe(true)
 	})
 
 	it('should return false for non-objects', () => {
@@ -167,34 +167,34 @@ describe('isImportedSettings', () => {
 	})
 
 	it('should return false for objects with non-array commands', () => {
-		expect(isImportedSettings({ commands: 'not-array' })).toBe(false)
-		expect(isImportedSettings({ commands: 123 })).toBe(false)
-		expect(isImportedSettings({ commands: {} })).toBe(false)
-		expect(isImportedSettings({ commands: null })).toBe(false)
+		expect(isImportedSettings({ commandConfigs: 'not-array' })).toBe(false)
+		expect(isImportedSettings({ commandConfigs: 123 })).toBe(false)
+		expect(isImportedSettings({ commandConfigs: {} })).toBe(false)
+		expect(isImportedSettings({ commandConfigs: null })).toBe(false)
 	})
 
-	it('should return false for arrays with invalid commands', () => {
+	it('should return false for arrays with invalid commandConfigs', () => {
 		expect(
 			isImportedSettings({
-				commands: [null],
+				commandConfigs: [null],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commands: ['string'],
+				commandConfigs: ['string'],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commands: [123],
+				commandConfigs: [123],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commands: [
+				commandConfigs: [
 					{
 						commandName: 'valid-command',
 						templateFilePath: 'template.md',

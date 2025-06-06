@@ -1,14 +1,14 @@
-import type { ValidationError, CommandSettings } from '../types'
+import type { ValidationError, CommandConfig } from '../../types'
 import { validateField, VALIDATION_RULES, type ValidationRule } from './validation'
 import { isImportedSettings, isCommandSettings } from './typeGuards'
 
 export interface FieldValidation {
-	field: keyof CommandSettings
+	field: keyof CommandConfig
 	value: string | undefined
 	rules: ValidationRule[]
 }
 
-export const buildFieldValidations = (command: CommandSettings): FieldValidation[] => {
+export const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
 	return [
 		{
 			field: 'commandName',
@@ -67,6 +67,6 @@ export const validateImportedSettings = (data: unknown): { isValid: boolean; err
 	if (!isImportedSettings(data)) {
 		return { isValid: false, errors: [{ field: 'root', message: 'Invalid data format' }] }
 	}
-	const errors = data.commands.flatMap((command, index) => validateCommand(command, index))
+	const errors = data.commandConfigs.flatMap((command, index) => validateCommand(command, index))
 	return { isValid: errors.length === 0, errors }
 }
