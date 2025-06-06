@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { CommandSettings } from '../constants'
+import type { CommandConfig } from '../../types'
 import { SettingInput } from './SettingInput'
 import { validateField, VALIDATION_RULES, type ValidationRule } from '../utils/validation'
 
@@ -11,17 +11,17 @@ interface ValidationErrors {
 }
 
 interface CommandCardProps {
-	command: CommandSettings
+	command: CommandConfig
 	index: number
-	onUpdate: (index: number, field: keyof CommandSettings, value: string) => void
+	onUpdate: (index: number, field: keyof CommandConfig, value: string) => void
 	onDelete: (index: number) => void
 }
 
 export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpdate, onDelete }) => {
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
 
-	const validate = (field: keyof CommandSettings, value: string, rules: ValidationRule[]) => {
-		const errorMessage = validateField(value, rules)
+	const validate = (field: keyof CommandConfig, value: string, rules: ValidationRule[]) => {
+		const errorMessage = validateField(rules, value)
 		setValidationErrors((prev) => ({ ...prev, [field]: errorMessage }))
 	}
 

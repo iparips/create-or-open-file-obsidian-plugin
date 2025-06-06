@@ -1,16 +1,7 @@
-export interface CommandSettings {
-	commandName: string
-	templateFilePath: string
-	destinationFolderPattern: string
-	fileNamePattern: string
-}
-
-export interface PluginSettings {
-	commands: CommandSettings[]
-}
+import { PluginSettings } from '../types'
 
 export const DEFAULT_SETTINGS: PluginSettings = {
-	commands: [
+	commandConfigs: [
 		{
 			commandName: 'eg: Weekly shopping list',
 			templateFilePath: 'eg: 00 - Meta/Templates/shopping-list-template.md',

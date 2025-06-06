@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { buildFieldValidations, validateCommand, validateImportedSettings } from '../importValidation'
-import type { CommandSettings } from '../../types'
+import type { CommandConfig } from '../../../types'
 
 // Mock the type guards
 vi.mock('../typeGuards', () => ({
@@ -12,7 +12,7 @@ import { isCommandSettings, isImportedSettings } from '../typeGuards'
 
 describe('buildFieldValidations', () => {
 	it('should build correct field validations for a command', () => {
-		const command: CommandSettings = {
+		const command: CommandConfig = {
 			commandName: 'test-command',
 			templateFilePath: 'template.md',
 			destinationFolderPattern: 'folder',
@@ -199,7 +199,7 @@ describe('validateImportedSettings', () => {
 		vi.mocked(isCommandSettings).mockReturnValue(true)
 
 		const validData = {
-			commands: [
+			commandConfigs: [
 				{
 					commandName: 'test-command-1',
 					templateFilePath: 'template.md',
@@ -241,7 +241,7 @@ describe('validateImportedSettings', () => {
 		vi.mocked(isCommandSettings).mockReturnValue(true)
 
 		const invalidData = {
-			commands: [
+			commandConfigs: [
 				{
 					commandName: '',
 					templateFilePath: 'template.md',
@@ -285,7 +285,7 @@ describe('validateImportedSettings', () => {
 	it('should handle empty commands array', () => {
 		vi.mocked(isImportedSettings).mockReturnValue(true)
 
-		const result = validateImportedSettings({ commands: [] })
+		const result = validateImportedSettings({ commandConfigs: [] })
 
 		expect(result).toEqual({
 			isValid: true,

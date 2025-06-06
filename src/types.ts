@@ -19,13 +19,13 @@ export interface ValidationError {
 }
 
 // Command settings types
-export interface CommandSettings {
+export interface CommandConfig {
 	commandName: string
 	templateFilePath?: string
 	destinationFolderPattern: string
 	fileNamePattern: string
 }
 
-export interface ImportedSettings {
-	commands: CommandSettings[]
+export interface PluginSettings {
+	commandConfigs: CommandConfig[]
 }

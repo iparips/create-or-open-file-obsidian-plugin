@@ -4,15 +4,22 @@ import { createRoot, type Root } from 'react-dom/client'
 
 import type MyPlugin from '../main'
 import { SettingsComponent } from './components'
-import { PluginSettings } from './constants'
+import { PluginSettings } from '../types'
 
 export class SettingsTab extends PluginSettingTab {
-	plugin: MyPlugin
+	settings: PluginSettings
+	updatePluginSettingsCallback: (newSettings: PluginSettings) => Promise<void>
 	private root: Root | null = null
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(
+		app: App,
+		plugin: MyPlugin,
+		settings: PluginSettings,
+		updateSettingsCallback: (newSettings: PluginSettings) => Promise<void>,
+	) {
 		super(app, plugin)
-		this.plugin = plugin
+		this.settings = settings
+		this.updatePluginSettingsCallback = updateSettingsCallback
 	}
 
 	display(): void {
@@ -23,8 +30,8 @@ export class SettingsTab extends PluginSettingTab {
 		this.root = createRoot(containerEl)
 		this.root.render(
 			React.createElement(SettingsComponent, {
-				settings: this.plugin.settings,
-				saveSettings: (newSettings: PluginSettings) => this.plugin.saveSettings(newSettings),
+				settings: this.settings,
+				updatePluginSettings: this.updatePluginSettingsCallback,
 			}),
 		)
 	}

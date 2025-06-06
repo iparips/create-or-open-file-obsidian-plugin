@@ -1,4 +1,4 @@
-import type { CommandSettings, ImportedSettings } from '../types'
+import type { CommandConfig, PluginSettings } from '../../types'
 
 export function isString(value: unknown): value is string {
 	return typeof value === 'string'
@@ -8,7 +8,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 	return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
-export function isCommandSettings(value: unknown): value is CommandSettings {
+export function isCommandSettings(value: unknown): value is CommandConfig {
 	if (!isObject(value)) return false
 
 	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern } = value
@@ -21,11 +21,11 @@ export function isCommandSettings(value: unknown): value is CommandSettings {
 	)
 }
 
-export function isImportedSettings(value: unknown): value is ImportedSettings {
+export function isImportedSettings(value: unknown): value is PluginSettings {
 	if (!isObject(value)) return false
 
-	const { commands } = value
-	if (!Array.isArray(commands)) return false
+	const { commandConfigs } = value
+	if (!Array.isArray(commandConfigs)) return false
 
-	return commands.every(isCommandSettings)
+	return commandConfigs.every(isCommandSettings)
 }

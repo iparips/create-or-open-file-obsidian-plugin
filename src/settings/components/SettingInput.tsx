@@ -4,7 +4,7 @@ interface SettingInputProps {
 	name: string
 	description: string
 	placeholder: string
-	value: string
+	value?: string
 	onChange: (value: string) => void
 	onBlur?: (value: string) => void
 	error?: string
@@ -31,7 +31,7 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 					type="text"
 					className={`w-full ${error ? 'error' : ''}`}
 					placeholder={placeholder}
-					value={value}
+					value={value ?? ''}
 					onChange={(e) => onChange(e.target.value)}
 					onBlur={(e) => onBlur?.(e.target.value)}
 				/>

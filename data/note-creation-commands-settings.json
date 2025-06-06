@@ -1,5 +1,5 @@
 {
-	"commands": [
+	"commandConfigs": [
 		{
 			"commandName": "Ilya's tomorrow's daily note",
 			"templateFilePath": "",
@@ -16,7 +16,7 @@
 			"commandName": "Weekly Plan",
 			"templateFilePath": "",
 			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-			"fileNamePattern": "plan"
+			"fileNamePattern": "plan.md"
 		}
 	]
 }
