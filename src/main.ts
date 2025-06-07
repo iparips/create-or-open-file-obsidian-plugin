@@ -7,7 +7,6 @@ import { CommandConfig, PluginSettings } from './types'
 
 export default class MyPlugin extends Plugin {
 	settings!: PluginSettings
-	private myCommandIds: string[] = []
 
 	async onload() {
 		this.settings = await this.loadSettingsFromFile()
@@ -27,9 +26,10 @@ export default class MyPlugin extends Plugin {
 
 	private registerCommands(commandConfigs: CommandConfig[]): void {
 		this.unregisterCommands()
+		
 		commandConfigs.forEach((config: CommandConfig, index: number) => {
-			const commandId = `${this.manifest.id}:cmd-${index}`
-			this.myCommandIds.push(commandId)
+			// Don't include manifest ID - Obsidian adds it automatically
+			const commandId = `cmd-${index}`
 			this.addCommand({
 				id: commandId,
 				name: config.commandName,
@@ -39,10 +39,12 @@ export default class MyPlugin extends Plugin {
 	}
 
 	private unregisterCommands() {
-		this.myCommandIds.forEach((commandId) => {
-			this.app.commands.removeCommand(commandId)
+		// Find and remove all commands belonging to this plugin
+		const allCommands = this.app.commands.listCommands()
+		const myCommands = allCommands.filter((cmd) => cmd.id.startsWith(this.manifest.id))
+		myCommands.forEach((cmd) => {
+			this.app.commands.removeCommand(cmd.id)
 		})
-		this.myCommandIds = []
 	}
 
 	async updateSettings(newSettings: PluginSettings): Promise<void> {
