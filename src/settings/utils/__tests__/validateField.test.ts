@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { VALIDATION_RULES, validateField } from '../validation'
+import { VALIDATION_RULES, validateField } from '../validateField'
 
 describe('VALIDATION_RULES', () => {
 	describe('required', () => {

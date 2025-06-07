@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import type { CommandConfig } from '../../types'
+import type { CommandConfig, ValidationError } from '../../types'
 import { SettingInput } from './SettingInput'
-import { validateField, VALIDATION_RULES, type ValidationRule } from '../utils/validation'
+import { validateField, VALIDATION_RULES, type ValidationRule } from '../utils/validateField'
 
 interface ValidationErrors {
 	commandName?: string
@@ -16,14 +16,32 @@ interface CommandCardProps {
 	index: number
 	onUpdate: (index: number, field: keyof CommandConfig, value: string) => void
 	onDelete: (index: number) => void
+	validationErrors?: ValidationError[]
 }
 
-export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpdate, onDelete }) => {
-	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({})
+export const CommandCard: React.FC<CommandCardProps> = ({
+	command,
+	index,
+	onUpdate,
+	onDelete,
+	validationErrors: propValidationErrors = [],
+}) => {
+	const [localValidationErrors, setLocalValidationErrors] = useState<ValidationErrors>({})
+
+	// Merge prop validation errors with local validation errors for display
+	const propErrors: ValidationErrors = {}
+	propValidationErrors.forEach((error) => {
+		if (error.field in command) {
+			propErrors[error.field as keyof CommandConfig] = error.message
+		}
+	})
+
+	// Local errors take precedence over prop errors
+	const displayErrors = { ...propErrors, ...localValidationErrors }
 
 	const validate = (field: keyof CommandConfig, value: string, rules: ValidationRule[]) => {
 		const errorMessage = validateField(rules, value)
-		setValidationErrors((prev) => ({ ...prev, [field]: errorMessage }))
+		setLocalValidationErrors((prev: ValidationErrors) => ({ ...prev, [field]: errorMessage }))
 	}
 
 	return (
@@ -36,7 +54,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					value={command.commandName}
 					onChange={(value) => onUpdate(index, 'commandName', value)}
 					onBlur={(value) => validate('commandName', value, [VALIDATION_RULES.required])}
-					error={validationErrors.commandName}
+					error={displayErrors.commandName}
 				/>
 
 				<SettingInput
@@ -46,7 +64,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					value={command.destinationFolderPattern}
 					onChange={(value) => onUpdate(index, 'destinationFolderPattern', value)}
 					onBlur={(value) => validate('destinationFolderPattern', value, [VALIDATION_RULES.required])}
-					error={validationErrors.destinationFolderPattern}
+					error={displayErrors.destinationFolderPattern}
 				/>
 
 				<SettingInput
@@ -56,7 +74,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
 					onBlur={(value) => validate('fileNamePattern', value, [VALIDATION_RULES.requiredAndEndsWithMd])}
-					error={validationErrors.fileNamePattern}
+					error={displayErrors.fileNamePattern}
 				/>
 
 				<SettingInput
@@ -66,7 +84,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					value={command.templateFilePath}
 					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
 					onBlur={(value) => validate('templateFilePath', value, [VALIDATION_RULES.endsWithMd])}
-					error={validationErrors.templateFilePath}
+					error={displayErrors.templateFilePath}
 				/>
 
 				<SettingInput
@@ -75,7 +93,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 					placeholder=""
 					value={command.timeShift}
 					onChange={(value) => onUpdate(index, 'timeShift', value)}
-					error={validationErrors.timeShift}
+					error={displayErrors.timeShift}
 				/>
 			</div>
 

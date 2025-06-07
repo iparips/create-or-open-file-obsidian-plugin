@@ -5,7 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import type MyPlugin from '../main'
 import { SettingsComponent } from './components'
 import { PluginSettings } from '../types'
-import { validateImportedSettings } from './utils/importValidation'
+import { validateSettings } from './utils/validateSettings'
 
 export class SettingsTab extends PluginSettingTab {
 	updatePluginSettingsCallback: (newSettings: PluginSettings) => Promise<void>
@@ -20,7 +20,6 @@ export class SettingsTab extends PluginSettingTab {
 		const { containerEl } = this
 		containerEl.empty()
 
-		// Create React root and render component
 		this.root = createRoot(containerEl)
 		this.root.render(
 			React.createElement(SettingsComponent, {
@@ -31,15 +30,10 @@ export class SettingsTab extends PluginSettingTab {
 	}
 
 	hide(): void {
-		// Validate settings before closing
-		const validationResult = validateImportedSettings((this.plugin as MyPlugin).settings)
-
+		const validationResult = validateSettings((this.plugin as MyPlugin).settings)
 		if (!validationResult.isValid) {
-			const errorMessages = validationResult.errors.map((error) => error.message).join('\n')
-			new Notice(`Settings validation failed:\n${errorMessages}`, 8000)
-			return // Prevent closing if validation fails
+			new Notice(`Please fill out the required settings for the new command to work`, 10000)
 		}
-
 		// Clean up React root when settings tab is hidden
 		if (this.root) {
 			this.root.unmount()

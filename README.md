@@ -20,8 +20,10 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
 - [x] Move processPattern method from main.ts
 - [x] Add test for importing config from file
 - [x] Add test for exporting config to file
-- [ ] Improve the date pattern parsing
+- [x] Improve the date pattern parsing
+- [ ] Review validateSettings.test.ts
 - [ ] Improve user docs
+- [ ] Release
 
 # Dev Notes
 

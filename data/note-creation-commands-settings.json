@@ -2,7 +2,6 @@
 	"commandConfigs": [
 		{
 			"commandName": "Tomorrow's daily note",
-			"templateFilePath": "",
 			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
 			"fileNamePattern": "{month}-{day}-{dow}.md",
 			"timeShift": "+1 day"

@@ -1,9 +1,11 @@
-import type { ValidationError, CommandConfig } from '../../types'
-import { validateField, VALIDATION_RULES, type ValidationRule } from './validation'
-import { isImportedSettings, isCommandSettings } from './typeGuards'
+import type { CommandConfig, ValidationError } from '../../types'
+import { validateField, VALIDATION_RULES, type ValidationRule } from './validateField'
+import { isCommandSettings, isImportedSettings } from './typeGuards'
+import { ValidationResult } from './validationResult'
 
 export interface FieldValidation {
 	field: keyof CommandConfig
+	fieldDisplayName: string
 	value: string | undefined
 	rules: ValidationRule[]
 }
@@ -12,26 +14,31 @@ export const buildFieldValidations = (command: CommandConfig): FieldValidation[]
 	return [
 		{
 			field: 'commandName',
+			fieldDisplayName: 'Command Name',
 			value: command.commandName,
 			rules: [VALIDATION_RULES.required],
 		},
 		{
 			field: 'templateFilePath',
+			fieldDisplayName: 'Template File',
 			value: command.templateFilePath,
 			rules: [VALIDATION_RULES.endsWithMd],
 		},
 		{
 			field: 'destinationFolderPattern',
+			fieldDisplayName: 'Destination Folder',
 			value: command.destinationFolderPattern,
 			rules: [VALIDATION_RULES.required],
 		},
 		{
 			field: 'fileNamePattern',
+			fieldDisplayName: 'File Name',
 			value: command.fileNamePattern,
 			rules: [VALIDATION_RULES.requiredAndEndsWithMd],
 		},
 		{
 			field: 'timeShift',
+			fieldDisplayName: 'Time Shift',
 			value: command.timeShift,
 			rules: [], // Optional field, no validation rules needed
 		},
@@ -39,13 +46,12 @@ export const buildFieldValidations = (command: CommandConfig): FieldValidation[]
 }
 
 export const validateCommand = (command: unknown, index: number): ValidationError[] => {
-	const commandNumber = index + 1
-
 	if (!isCommandSettings(command)) {
 		return [
 			{
 				field: 'command',
-				message: `Command ${commandNumber} is not a valid object or has invalid field types`,
+				fieldDisplayName: 'Command',
+				message: 'Invalid object or field types',
 				commandIndex: index,
 			},
 		]
@@ -54,12 +60,13 @@ export const validateCommand = (command: unknown, index: number): ValidationErro
 	const fieldValidations = buildFieldValidations(command)
 
 	const errors: ValidationError[] = []
-	fieldValidations.forEach(({ field, value, rules }) => {
+	fieldValidations.forEach(({ field, fieldDisplayName, value, rules }) => {
 		const fieldError = validateField(rules, value)
 		if (fieldError) {
 			errors.push({
 				field,
-				message: `Command ${commandNumber}: ${fieldError}`,
+				fieldDisplayName,
+				message: fieldError,
 				commandIndex: index,
 			})
 		}
@@ -68,10 +75,10 @@ export const validateCommand = (command: unknown, index: number): ValidationErro
 	return errors
 }
 
-export const validateImportedSettings = (data: unknown): { isValid: boolean; errors: ValidationError[] } => {
+export const validateSettings = (data: unknown): ValidationResult => {
 	if (!isImportedSettings(data)) {
-		return { isValid: false, errors: [{ field: 'root', message: 'Invalid data format' }] }
+		return new ValidationResult([{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' }])
 	}
 	const errors = data.commandConfigs.flatMap((command, index) => validateCommand(command, index))
-	return { isValid: errors.length === 0, errors }
+	return new ValidationResult(errors)
 }
