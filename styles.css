@@ -104,8 +104,12 @@ button.mod-warning:hover {
 	background: var(--background-primary);
 	color: var(--text-normal);
 	font-size: 1em;
-	min-height: 20px;
+	min-height: 44px; /* Minimum touch target size for mobile */
 	box-sizing: border-box;
+	/* Ensure full width on mobile devices */
+	max-width: 100%;
+	-webkit-appearance: none; /* Remove iOS styling */
+	appearance: none;
 }
 
 .settings-grid .setting-item input:focus {
@@ -124,6 +128,31 @@ button.mod-warning:hover {
 
 .settings-grid .setting-item input.error {
 	border-color: var(--text-error);
+}
+
+/* Mobile-specific styles (up to 767px) */
+@media (max-width: 767px) {
+	.settings-grid .setting-item input {
+		/* Ensure consistent full width on all mobile devices */
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0;
+		/* Better touch experience */
+		font-size: 16px; /* Prevents zoom on iOS */
+		min-height: 48px; /* Better touch target */
+		padding: 0.875em 0.75em;
+		/* Disable iOS rounded corners and shadows */
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	}
+
+	.setting-item-info {
+		margin-bottom: 0.5em;
+	}
+
+	.settings-grid .setting-item {
+		gap: 0.75em;
+	}
 }
 
 /* Tablet breakpoint (768px and up) */

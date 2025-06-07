@@ -25,11 +25,11 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 				<div className="setting-item-name">{name}</div>
 				<div className="setting-item-description">{description}</div>
 			</div>
-			<div>
+			<div className="w-full">
 				{error && <div className="error-message">{error}</div>}
 				<input
 					type="text"
-					className={`w-full ${error ? 'error' : ''}`}
+					className={`${error ? 'error' : ''}`}
 					placeholder={placeholder}
 					value={value ?? ''}
 					onChange={(e) => onChange(e.target.value)}
