@@ -1,9 +1,8 @@
 import React from 'react'
 import { saveAs } from 'file-saver'
 import { useFilePicker } from 'use-file-picker'
-import type { PluginSettings } from '../constants'
 import { processImportedSettings } from './ActionsHeader.utils'
-import type { SelectedFiles } from '../../types'
+import type { SelectedFiles, PluginSettings } from '../../types'
 
 interface ActionsHeaderProps {
 	settings: PluginSettings

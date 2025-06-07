@@ -1,4 +1,4 @@
-import type { PluginSettings } from '../constants'
+import type { PluginSettings } from '../../types'
 import type { SelectedFiles } from '../../types'
 import { validateImportedSettings } from '../utils/importValidation'
 
