@@ -24,6 +24,7 @@ export interface CommandConfig {
 	templateFilePath?: string
 	destinationFolderPattern: string
 	fileNamePattern: string
+	timeShift?: string
 }
 
 export interface PluginSettings {

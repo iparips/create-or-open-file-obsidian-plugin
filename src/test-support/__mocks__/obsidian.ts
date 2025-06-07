@@ -18,7 +18,7 @@ export const mockTFile = (path: string): TFile => ({
 	},
 	parent: null,
 	vault: mockVault(),
-})
+}) as unknown as TFile
 
 export const mockTFolder = (path: string): TFolder => ({
 	path,
@@ -27,7 +27,7 @@ export const mockTFolder = (path: string): TFolder => ({
 	children: [],
 	parent: null,
 	vault: mockVault(),
-})
+}) as unknown as TFolder
 
 export const mockVault = (): Vault =>
 	({

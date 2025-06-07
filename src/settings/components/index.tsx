@@ -34,6 +34,7 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 				templateFilePath: '',
 				destinationFolderPattern: '',
 				fileNamePattern: '',
+				timeShift: '',
 			},
 			...newSettings.commandConfigs,
 		]

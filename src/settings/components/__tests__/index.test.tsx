@@ -157,6 +157,7 @@ describe('SettingsComponent', () => {
 							templateFilePath: '',
 							destinationFolderPattern: '',
 							fileNamePattern: '',
+							timeShift: '',
 						},
 						{
 							commandName: 'Test Command 1',

@@ -1,10 +1,11 @@
 {
 	"commandConfigs": [
 		{
-			"commandName": "Ilya's tomorrow's daily note",
+			"commandName": "Tomorrow's daily note",
 			"templateFilePath": "",
 			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-			"fileNamePattern": "{month}-{day}-{dow}.md"
+			"fileNamePattern": "{month}-{day}-{dow}.md",
+			"timeShift": "+1 day"
 		},
 		{
 			"commandName": "Shopping list",

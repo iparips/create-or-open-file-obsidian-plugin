@@ -30,6 +30,11 @@ export const buildFieldValidations = (command: CommandConfig): FieldValidation[]
 			value: command.fileNamePattern,
 			rules: [VALIDATION_RULES.requiredAndEndsWithMd],
 		},
+		{
+			field: 'timeShift',
+			value: command.timeShift,
+			rules: [], // Optional field, no validation rules needed
+		},
 	]
 }
 
