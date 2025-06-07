@@ -153,7 +153,7 @@ describe('SettingsComponent', () => {
 				{
 					commandConfigs: [
 						{
-							commandName: 'New Command',
+							commandName: '',
 							templateFilePath: '',
 							destinationFolderPattern: '',
 							fileNamePattern: '',

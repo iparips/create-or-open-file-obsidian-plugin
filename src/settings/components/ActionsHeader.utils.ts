@@ -1,6 +1,6 @@
 import type { PluginSettings } from '../../types'
 import type { SelectedFiles } from '../../types'
-import { validateImportedSettings } from '../utils/importValidation'
+import { validateSettings } from '../utils/validateSettings'
 
 export const processImportedSettings = async (
 	{ filesContent }: SelectedFiles<string>,
@@ -8,10 +8,10 @@ export const processImportedSettings = async (
 ) => {
 	try {
 		const parsedData = JSON.parse(filesContent[0].content)
-		const validationResult = validateImportedSettings(parsedData)
+		const validationResult = validateSettings(parsedData)
 
 		if (!validationResult.isValid) {
-			const errorMessages = validationResult.errors.map((error) => error.message).join('\n')
+			const errorMessages = validationResult.getErrorSummaryText()
 			alert(`Import failed due to validation errors:\n\n${errorMessages}`)
 			return
 		}

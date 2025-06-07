@@ -6,28 +6,30 @@ export type TFolder = ObsidianTFolder
 export type Vault = ObsidianVault
 
 // Mock implementations
-export const mockTFile = (path: string): TFile => ({
-	path,
-	basename: path.split('/').pop()?.split('.')[0] || '',
-	extension: path.split('.').pop() || '',
-	name: path.split('/').pop() || '',
-	stat: {
-		ctime: Date.now(),
-		mtime: Date.now(),
-		size: 0,
-	},
-	parent: null,
-	vault: mockVault(),
-}) as unknown as TFile
+export const mockTFile = (path: string): TFile =>
+	({
+		path,
+		basename: path.split('/').pop()?.split('.')[0] || '',
+		extension: path.split('.').pop() || '',
+		name: path.split('/').pop() || '',
+		stat: {
+			ctime: Date.now(),
+			mtime: Date.now(),
+			size: 0,
+		},
+		parent: null,
+		vault: mockVault(),
+	}) as unknown as TFile
 
-export const mockTFolder = (path: string): TFolder => ({
-	path,
-	isRoot: () => false,
-	name: path.split('/').pop() || '',
-	children: [],
-	parent: null,
-	vault: mockVault(),
-}) as unknown as TFolder
+export const mockTFolder = (path: string): TFolder =>
+	({
+		path,
+		isRoot: () => false,
+		name: path.split('/').pop() || '',
+		children: [],
+		parent: null,
+		vault: mockVault(),
+	}) as unknown as TFolder
 
 export const mockVault = (): Vault =>
 	({

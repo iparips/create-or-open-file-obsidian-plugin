@@ -14,6 +14,7 @@ export interface SelectedFiles<T> {
 // Validation types
 export interface ValidationError {
 	field: string
+	fieldDisplayName: string
 	message: string
 	commandIndex?: number
 }

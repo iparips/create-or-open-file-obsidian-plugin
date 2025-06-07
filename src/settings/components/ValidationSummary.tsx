@@ -1,0 +1,27 @@
+import React from 'react'
+import type { ValidationResult } from '../utils/validationResult'
+
+interface ErrorSummaryProps {
+	validationResult: ValidationResult
+}
+
+export const ValidationSummary: React.FC<ErrorSummaryProps> = ({ validationResult }) => {
+	if (!validationResult.hasErrors()) {
+		return null
+	}
+
+	const errorSummary = validationResult.getErrorSummary()
+
+	return (
+		<div className="error-summary">
+			<div className="error-summary-title">Please fill out the highlighted fields</div>
+			<ul className="error-summary-list">
+				{errorSummary.map((errorMessage, index) => (
+					<li key={index} className="error-summary-item">
+						{errorMessage}
+					</li>
+				))}
+			</ul>
+		</div>
+	)
+}

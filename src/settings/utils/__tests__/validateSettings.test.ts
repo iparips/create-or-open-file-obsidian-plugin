@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { buildFieldValidations, validateCommand, validateImportedSettings } from '../importValidation'
+import { buildFieldValidations, validateCommand, validateSettings } from '../validateSettings'
+import { ValidationResult } from '../validationResult'
 import type { CommandConfig } from '../../../types'
 
 // Mock the type guards
@@ -24,26 +25,31 @@ describe('buildFieldValidations', () => {
 		expect(validations).toHaveLength(5)
 		expect(validations[0]).toEqual({
 			field: 'commandName',
+			fieldDisplayName: 'Command Name',
 			value: 'test-command',
 			rules: expect.any(Array),
 		})
 		expect(validations[1]).toEqual({
 			field: 'templateFilePath',
+			fieldDisplayName: 'Template File',
 			value: 'template.md',
 			rules: expect.any(Array),
 		})
 		expect(validations[2]).toEqual({
 			field: 'destinationFolderPattern',
+			fieldDisplayName: 'Destination Folder',
 			value: 'folder',
 			rules: expect.any(Array),
 		})
 		expect(validations[3]).toEqual({
 			field: 'fileNamePattern',
+			fieldDisplayName: 'File Name',
 			value: 'file.md',
 			rules: expect.any(Array),
 		})
 		expect(validations[4]).toEqual({
 			field: 'timeShift',
+			fieldDisplayName: 'Time Shift',
 			value: undefined,
 			rules: expect.any(Array),
 		})
@@ -96,7 +102,8 @@ describe('validateCommand', () => {
 		expect(errors).toHaveLength(1)
 		expect(errors[0]).toEqual({
 			field: 'command',
-			message: 'Command 1 is not a valid object or has invalid field types',
+			fieldDisplayName: 'Command',
+			message: 'Invalid object or field types',
 			commandIndex: 0,
 		})
 		expect(isCommandSettings).toHaveBeenCalledWith(invalidCommand)
@@ -117,17 +124,20 @@ describe('validateCommand', () => {
 		expect(errors).toHaveLength(3)
 		expect(errors[0]).toEqual({
 			field: 'commandName',
-			message: 'Command 2: This field is mandatory',
+			fieldDisplayName: 'Command Name',
+			message: 'This field is mandatory',
 			commandIndex: 1,
 		})
 		expect(errors[1]).toEqual({
 			field: 'destinationFolderPattern',
-			message: 'Command 2: This field is mandatory',
+			fieldDisplayName: 'Destination Folder',
+			message: 'This field is mandatory',
 			commandIndex: 1,
 		})
 		expect(errors[2]).toEqual({
 			field: 'fileNamePattern',
-			message: 'Command 2: This field is mandatory',
+			fieldDisplayName: 'File Name',
+			message: 'This field is mandatory',
 			commandIndex: 1,
 		})
 	})
@@ -147,7 +157,8 @@ describe('validateCommand', () => {
 		expect(errors).toHaveLength(1)
 		expect(errors[0]).toEqual({
 			field: 'templateFilePath',
-			message: 'Command 1: File name should end with .md extension',
+			fieldDisplayName: 'Template File',
+			message: 'File name should end with .md extension',
 			commandIndex: 0,
 		})
 	})
@@ -167,7 +178,8 @@ describe('validateCommand', () => {
 		expect(errors).toHaveLength(1)
 		expect(errors[0]).toEqual({
 			field: 'fileNamePattern',
-			message: 'Command 1: File name should end with .md extension',
+			fieldDisplayName: 'File Name',
+			message: 'File name should end with .md extension',
 			commandIndex: 0,
 		})
 	})
@@ -220,24 +232,26 @@ describe('validateImportedSettings', () => {
 			],
 		}
 
-		const result = validateImportedSettings(validData)
+		const result = validateSettings(validData)
 
-		expect(result).toEqual({
-			isValid: true,
-			errors: [],
-		})
+		expect(result).toBeInstanceOf(ValidationResult)
+		expect(result.isValid).toBe(true)
+		expect(result.errors).toEqual([])
+		expect(result.hasErrors()).toBe(false)
+		expect(result.getErrorCount()).toBe(0)
 		expect(isImportedSettings).toHaveBeenCalledWith(validData)
 	})
 
 	it('should return error when isImportedSettings fails', () => {
 		vi.mocked(isImportedSettings).mockReturnValue(false)
 
-		const result = validateImportedSettings(null)
+		const result = validateSettings(null)
 
-		expect(result).toEqual({
-			isValid: false,
-			errors: [{ field: 'root', message: 'Invalid data format' }],
-		})
+		expect(result).toBeInstanceOf(ValidationResult)
+		expect(result.isValid).toBe(false)
+		expect(result.errors).toEqual([{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' }])
+		expect(result.hasErrors()).toBe(true)
+		expect(result.getErrorCount()).toBe(1)
 		expect(isImportedSettings).toHaveBeenCalledWith(null)
 	})
 
@@ -262,27 +276,33 @@ describe('validateImportedSettings', () => {
 			],
 		}
 
-		const result = validateImportedSettings(invalidData)
+		const result = validateSettings(invalidData)
 
+		expect(result).toBeInstanceOf(ValidationResult)
 		expect(result.isValid).toBe(false)
 		expect(result.errors).toHaveLength(3)
+		expect(result.hasErrors()).toBe(true)
+		expect(result.getErrorCount()).toBe(3)
 
 		// First command error
 		expect(result.errors[0]).toEqual({
 			field: 'commandName',
-			message: 'Command 1: This field is mandatory',
+			fieldDisplayName: 'Command Name',
+			message: 'This field is mandatory',
 			commandIndex: 0,
 		})
 
 		// Second command errors
 		expect(result.errors[1]).toEqual({
 			field: 'templateFilePath',
-			message: 'Command 2: File name should end with .md extension',
+			fieldDisplayName: 'Template File',
+			message: 'File name should end with .md extension',
 			commandIndex: 1,
 		})
 		expect(result.errors[2]).toEqual({
 			field: 'destinationFolderPattern',
-			message: 'Command 2: This field is mandatory',
+			fieldDisplayName: 'Destination Folder',
+			message: 'This field is mandatory',
 			commandIndex: 1,
 		})
 	})
@@ -290,11 +310,56 @@ describe('validateImportedSettings', () => {
 	it('should handle empty commands array', () => {
 		vi.mocked(isImportedSettings).mockReturnValue(true)
 
-		const result = validateImportedSettings({ commandConfigs: [] })
+		const result = validateSettings({ commandConfigs: [] })
 
-		expect(result).toEqual({
-			isValid: true,
-			errors: [],
-		})
+		expect(result).toBeInstanceOf(ValidationResult)
+		expect(result.isValid).toBe(true)
+		expect(result.errors).toEqual([])
+		expect(result.hasErrors()).toBe(false)
+		expect(result.getErrorCount()).toBe(0)
+	})
+
+	it('should test ValidationResult helper methods', () => {
+		vi.mocked(isImportedSettings).mockReturnValue(true)
+		vi.mocked(isCommandSettings).mockReturnValue(true)
+
+		const invalidData = {
+			commandConfigs: [
+				{
+					commandName: '',
+					templateFilePath: 'template.md',
+					destinationFolderPattern: 'folder',
+					fileNamePattern: 'file.md',
+				},
+				{
+					commandName: 'valid-command',
+					templateFilePath: 'template.txt',
+					destinationFolderPattern: '',
+					fileNamePattern: 'file.md',
+				},
+			],
+		}
+
+		const result = validateSettings(invalidData)
+
+		// Test getErrorsForCommand method
+		const command0Errors = result.getErrorsForCommand(0)
+		expect(command0Errors).toHaveLength(1)
+		expect(command0Errors[0].field).toBe('commandName')
+
+		const command1Errors = result.getErrorsForCommand(1)
+		expect(command1Errors).toHaveLength(2)
+		expect(command1Errors.map((e) => e.field)).toEqual(['templateFilePath', 'destinationFolderPattern'])
+
+		// Test error summary methods
+		const errorSummary = result.getErrorSummary()
+		expect(errorSummary).toHaveLength(3)
+		expect(errorSummary[0]).toBe('Command 1 - Command Name: This field is mandatory')
+		expect(errorSummary[1]).toBe('Command 2 - Template File: File name should end with .md extension')
+		expect(errorSummary[2]).toBe('Command 2 - Destination Folder: This field is mandatory')
+
+		const errorSummaryText = result.getErrorSummaryText()
+		expect(errorSummaryText).toContain('Command 1 - Command Name: This field is mandatory')
+		expect(errorSummaryText).toContain('Command 2 - Template File: File name should end with .md extension')
 	})
 })
