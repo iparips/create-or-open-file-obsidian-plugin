@@ -8,6 +8,7 @@ interface ValidationErrors {
 	templateFilePath?: string
 	destinationFolderPattern?: string
 	fileNamePattern?: string
+	timeShift?: string
 }
 
 interface CommandCardProps {
@@ -39,18 +40,8 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 				/>
 
 				<SettingInput
-					name="Template File"
-					description="Path to the template file"
-					placeholder="00 - Meta/Templates/shopping-list-template.md"
-					value={command.templateFilePath}
-					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
-					onBlur={(value) => validate('templateFilePath', value, [VALIDATION_RULES.endsWithMd])}
-					error={validationErrors.templateFilePath}
-				/>
-
-				<SettingInput
 					name="Destination Folder"
-					description="Pattern for destination folder"
+					description="Path / pattern for destination folder"
 					placeholder="01 - Journal/Weekly/Week-{week}"
 					value={command.destinationFolderPattern}
 					onChange={(value) => onUpdate(index, 'destinationFolderPattern', value)}
@@ -60,12 +51,31 @@ export const CommandCard: React.FC<CommandCardProps> = ({ command, index, onUpda
 
 				<SettingInput
 					name="File Name"
-					description="Pattern for the file name"
+					description="Path / pattern for the file name"
 					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
 					onBlur={(value) => validate('fileNamePattern', value, [VALIDATION_RULES.requiredAndEndsWithMd])}
 					error={validationErrors.fileNamePattern}
+				/>
+
+				<SettingInput
+					name="Template File"
+					description="Optional path to the template file"
+					placeholder="00 - Meta/Templates/shopping-list-template.md"
+					value={command.templateFilePath}
+					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
+					onBlur={(value) => validate('templateFilePath', value, [VALIDATION_RULES.endsWithMd])}
+					error={validationErrors.templateFilePath}
+				/>
+
+				<SettingInput
+					name="Time shift"
+					description="Optional time shift (e.g., '+1 day', '-1 week', '+2 months')"
+					placeholder=""
+					value={command.timeShift}
+					onChange={(value) => onUpdate(index, 'timeShift', value)}
+					error={validationErrors.timeShift}
 				/>
 			</div>
 

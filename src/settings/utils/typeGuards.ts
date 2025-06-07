@@ -11,13 +11,14 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 export function isCommandSettings(value: unknown): value is CommandConfig {
 	if (!isObject(value)) return false
 
-	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern } = value
+	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern, timeShift } = value
 
 	return (
 		isString(commandName) &&
 		(templateFilePath === undefined || isString(templateFilePath)) &&
 		isString(destinationFolderPattern) &&
-		isString(fileNamePattern)
+		isString(fileNamePattern) &&
+		(timeShift === undefined || isString(timeShift))
 	)
 }
 

@@ -7,12 +7,13 @@ import { CommandConfig, PluginSettings } from './types'
 
 export default class MyPlugin extends Plugin {
 	settings!: PluginSettings
+	private isInitialLoad = true
 
 	async onload() {
 		this.settings = await this.loadSettingsFromFile()
 		this.registerCommands(this.settings.commandConfigs)
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(new SettingsTab(this.app, this, this.settings, this.updateSettings.bind(this)))
+		this.addSettingTab(new SettingsTab(this.app, this, this.updateSettings.bind(this)))
 	}
 
 	private async loadSettingsFromFile(): Promise<PluginSettings> {
@@ -25,8 +26,12 @@ export default class MyPlugin extends Plugin {
 	}
 
 	private registerCommands(commandConfigs: CommandConfig[]): void {
-		this.unregisterCommands()
-		
+		// Only unregister if we're not in the initial loading phase
+		// During onload, there are no existing commands to clean up
+		if (!this.isInitialLoad) {
+			this.unregisterCommands()
+		}
+
 		commandConfigs.forEach((config: CommandConfig, index: number) => {
 			// Don't include manifest ID - Obsidian adds it automatically
 			const commandId = `cmd-${index}`
@@ -40,6 +45,7 @@ export default class MyPlugin extends Plugin {
 
 	private unregisterCommands() {
 		// Find and remove all commands belonging to this plugin
+		// Wrap in try-catch to handle other plugins' checkCallback errors
 		const allCommands = this.app.commands.listCommands()
 		const myCommands = allCommands.filter((cmd) => cmd.id.startsWith(this.manifest.id))
 		myCommands.forEach((cmd) => {
@@ -50,6 +56,7 @@ export default class MyPlugin extends Plugin {
 	async updateSettings(newSettings: PluginSettings): Promise<void> {
 		this.settings = newSettings
 		await this.saveData(newSettings) // write to data.json
+		this.isInitialLoad = false // Mark that we're no longer in initial load
 		this.registerCommands(newSettings.commandConfigs)
 	}
 }

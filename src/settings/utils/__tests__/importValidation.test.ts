@@ -21,7 +21,7 @@ describe('buildFieldValidations', () => {
 
 		const validations = buildFieldValidations(command)
 
-		expect(validations).toHaveLength(4)
+		expect(validations).toHaveLength(5)
 		expect(validations[0]).toEqual({
 			field: 'commandName',
 			value: 'test-command',
@@ -40,6 +40,11 @@ describe('buildFieldValidations', () => {
 		expect(validations[3]).toEqual({
 			field: 'fileNamePattern',
 			value: 'file.md',
+			rules: expect.any(Array),
+		})
+		expect(validations[4]).toEqual({
+			field: 'timeShift',
+			value: undefined,
 			rules: expect.any(Array),
 		})
 	})
