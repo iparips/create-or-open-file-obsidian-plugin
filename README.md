@@ -17,9 +17,10 @@ For example, I use it to populate a weekly grocery shopping list inside my weekl
   - [x] That template file has .md extension
   - [x] Apply same validations to configuration imported from file
 - [x] Make configuration responsive
-- [ ] Move processPattern method from main.ts
-- [ ] Add test for importing config from file
-- [ ] Add test for exporting config to file
+- [x] Move processPattern method from main.ts
+- [x] Add test for importing config from file
+- [x] Add test for exporting config to file
+- [ ] Improve the date pattern parsing
 - [ ] Improve user docs
 
 # Dev Notes
