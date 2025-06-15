@@ -53,5 +53,11 @@ describe('validateField', () => {
 		expect(validateField([VALIDATIONS.required], undefined)).toBe('This field is mandatory')
 		expect(validateField([VALIDATIONS.endsWithMd], undefined)).toBeUndefined()
 		expect(validateField([VALIDATIONS.requiredAndEndsWithMd], undefined)).toBe('This field is mandatory')
+		expect(validateField([VALIDATIONS.timeShift], undefined)).toBeUndefined()
+	})
+
+	it('should work with timeShift validation', () => {
+		expect(validateField([VALIDATIONS.timeShift], '+1 day')).toBeUndefined()
+		expect(validateField([VALIDATIONS.timeShift], 'invalid')).toBeDefined()
 	})
 })

@@ -86,4 +86,64 @@ describe('VALIDATIONS', () => {
 			expect(VALIDATIONS.requiredAndEndsWithMd('   ')).toBe('This field is mandatory')
 		})
 	})
+
+	describe('timeShift', () => {
+		it('should return undefined for empty string (optional field)', () => {
+			expect(VALIDATIONS.timeShift('')).toBeUndefined()
+		})
+
+		it('should return undefined for undefined (optional field)', () => {
+			expect(VALIDATIONS.timeShift(undefined)).toBeUndefined()
+		})
+
+		it('should return undefined for whitespace-only string', () => {
+			expect(VALIDATIONS.timeShift('   ')).toBeUndefined()
+		})
+
+		it('should return undefined for valid time shift patterns', () => {
+			expect(VALIDATIONS.timeShift('+1 day')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-1 day')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('+2 days')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-3 weeks')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('+1 week')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('+12 months')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-5 years')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('1 day')).toBeUndefined() // Without explicit sign
+			expect(VALIDATIONS.timeShift('10 month')).toBeUndefined() // Singular form
+		})
+
+		it('should handle case insensitive units', () => {
+			expect(VALIDATIONS.timeShift('+1 DAY')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-2 WEEKS')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('+3 Month')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-1 Year')).toBeUndefined()
+		})
+
+		it('should return error for invalid time shift patterns', () => {
+			const expectedError =
+				'Time shift must be in format "+N unit" or "-N unit" (e.g., "+1 day", "-2 weeks", "+3 months")'
+
+			expect(VALIDATIONS.timeShift('invalid')).toBe(expectedError)
+			expect(VALIDATIONS.timeShift('1')).toBe(expectedError)
+			expect(VALIDATIONS.timeShift('day')).toBe(expectedError)
+			expect(VALIDATIONS.timeShift('+ 1 day')).toBe(expectedError) // Extra space after sign
+			expect(VALIDATIONS.timeShift('+1day')).toBe(expectedError) // No space between number and unit
+			expect(VALIDATIONS.timeShift('+1.5 days')).toBe(expectedError) // Decimal numbers not allowed
+			expect(VALIDATIONS.timeShift('+1 hour')).toBe(expectedError) // Invalid unit
+			expect(VALIDATIONS.timeShift('+1 seconds')).toBe(expectedError) // Invalid unit
+			expect(VALIDATIONS.timeShift('++1 day')).toBe(expectedError) // Double sign
+			expect(VALIDATIONS.timeShift('1 day extra')).toBe(expectedError) // Extra text
+		})
+
+		it('should handle zero values correctly', () => {
+			expect(VALIDATIONS.timeShift('0 days')).toBeUndefined() // Zero should be valid
+			expect(VALIDATIONS.timeShift('+0 weeks')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('-0 months')).toBeUndefined()
+		})
+
+		it('should handle whitespace around valid patterns', () => {
+			expect(VALIDATIONS.timeShift('  +1 day  ')).toBeUndefined()
+			expect(VALIDATIONS.timeShift('\t-2 weeks\n')).toBeUndefined()
+		})
+	})
 })

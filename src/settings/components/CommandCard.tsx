@@ -93,6 +93,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder=""
 					value={command.timeShift}
 					onChange={(value) => onUpdate(index, 'timeShift', value)}
+					onBlur={(value) => validate('timeShift', value, [VALIDATIONS.timeShift])}
 					error={displayErrors.timeShift}
 				/>
 			</div>

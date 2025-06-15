@@ -100,6 +100,44 @@ describe('validateSettings', () => {
 				commandIndex: 0,
 			})
 		})
+
+		describe('time shift validations', () => {
+			it('returns error when time shift is invalid', () => {
+				vi.mocked(isImportedSettings).mockReturnValue(true)
+				vi.mocked(isCommandSettings).mockReturnValue(true)
+
+				const invalidData = {
+					commandConfigs: [buildCommandConfig({ timeShift: 'invalid format' })],
+				}
+
+				const result = validateSettings(invalidData)
+
+				expect(result).toBeInstanceOf(ValidationResult)
+				expect(result.isValid).toBe(false)
+				expect(result.errors).toHaveLength(1)
+				expect(result.errors[0]).toEqual({
+					field: 'timeShift',
+					fieldDisplayName: 'Time Shift',
+					message: 'Time shift must be in format "+N unit" or "-N unit" (e.g., "+1 day", "-2 weeks", "+3 months")',
+					commandIndex: 0,
+				})
+			})
+
+			it('returns valid when time shift is valid', () => {
+				vi.mocked(isImportedSettings).mockReturnValue(true)
+				vi.mocked(isCommandSettings).mockReturnValue(true)
+
+				const validData = {
+					commandConfigs: [buildCommandConfig({ timeShift: '+1 day' })],
+				}
+
+				const result = validateSettings(validData)
+
+				expect(result).toBeInstanceOf(ValidationResult)
+				expect(result.isValid).toBe(true)
+				expect(result.errors).toHaveLength(0)
+			})
+		})
 	})
 
 	it('should validate required fields', () => {

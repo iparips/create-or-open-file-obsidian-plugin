@@ -40,7 +40,7 @@ const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
 			field: 'timeShift',
 			fieldDisplayName: 'Time Shift',
 			value: command.timeShift,
-			rules: [], // Optional field, no validation rules needed
+			rules: [VALIDATIONS.timeShift],
 		},
 	]
 }
