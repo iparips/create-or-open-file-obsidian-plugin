@@ -3,8 +3,7 @@ import { mockApp, mockTFile, mockTFolder, mockVault } from '../../test-support/_
 import { ObsidianAdapter } from '../obsidianAdapter'
 import type { App, Vault } from 'obsidian'
 
-// Mock obsidian module for import purposes
-vi.mock('obsidian', () => import('../../test-support/__mocks__/obsidian'))
+// Note: obsidian module is resolved via alias in vite.config.ts
 
 describe('ObsidianAdapter', () => {
 	let app: App
@@ -72,7 +71,7 @@ describe('ObsidianAdapter', () => {
 		it('creates empty note when template file is not supplied', async () => {
 			vi.spyOn(vault, 'getFileByPath').mockReturnValue(null)
 			vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
-			vi.spyOn(vault, 'createFolder').mockResolvedValue(undefined)
+			vi.spyOn(vault, 'createFolder').mockResolvedValue(mockTFolder(folderPath))
 			vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))
 
 			await adapter.createFileAndFolder(filePath)
@@ -86,7 +85,7 @@ describe('ObsidianAdapter', () => {
 			const templateFile = mockTFile(templatePath)
 			vi.spyOn(vault, 'getFileByPath').mockImplementation((path) => (path === templatePath ? templateFile : null))
 			vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
-			vi.spyOn(vault, 'createFolder').mockResolvedValue(undefined)
+			vi.spyOn(vault, 'createFolder').mockResolvedValue(mockTFolder(folderPath))
 			vi.spyOn(vault, 'read').mockResolvedValue('template content')
 			vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))
 

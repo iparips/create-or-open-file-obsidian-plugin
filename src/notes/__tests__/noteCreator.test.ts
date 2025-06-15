@@ -4,10 +4,9 @@ import { ObsidianAdapter } from '../obsidianAdapter'
 import type { App } from 'obsidian'
 
 // Import mock functions directly
-import * as obsidianMocks from '../../test-support/__mocks__/obsidian'
+import { mockApp } from '../../test-support/__mocks__/obsidian'
 
-// Mock obsidian module for import purposes
-vi.mock('obsidian', () => obsidianMocks)
+// Note: obsidian module is resolved via alias in vite.config.ts
 
 describe('NoteCreator', () => {
 	let app: App
@@ -17,7 +16,7 @@ describe('NoteCreator', () => {
 	const templateFilePath = 'templates/template.md'
 
 	beforeEach(() => {
-		app = obsidianMocks.mockApp()
+		app = mockApp()
 		adapter = new ObsidianAdapter(app)
 		noteCreator = new NoteCreator(adapter)
 	})

@@ -1,4 +1,5 @@
 import type { App } from 'obsidian'
+import { normalizePath } from 'obsidian'
 
 export class ObsidianAdapter {
 	app: App
@@ -16,23 +17,24 @@ export class ObsidianAdapter {
 	 *  */
 	public async openFile(filePath: string, sourcePath = ''): Promise<string> {
 		return this.app.workspace
-			.openLinkText(filePath, sourcePath)
+			.openLinkText(normalizePath(filePath), normalizePath(sourcePath))
 			.catch(() => Promise.reject(`Could not open the filePath [${filePath}], sourcePath[${sourcePath}]`))
 			.then(() => Promise.resolve('Note opened'))
 	}
 
 	public doesFileExist(fullPath: string): boolean {
-		return this.app.vault.getFileByPath(fullPath) !== null
+		return this.app.vault.getFileByPath(normalizePath(fullPath)) !== null
 	}
 
 	public async createFileAndFolder(filePath: string, templateFilePath?: string): Promise<string> {
-		const folderPath = filePath.substring(0, filePath.lastIndexOf('/'))
+		const normalisedFilePath = normalizePath(filePath)
+		const folderPath = normalisedFilePath.substring(0, normalisedFilePath.lastIndexOf('/'))
 		const noteFolderExists = this.app.vault.getFolderByPath(folderPath)
 		if (!noteFolderExists) {
 			await this.app.vault.createFolder(folderPath)
 		}
 		return this.getTemplateContentOrEmpty(templateFilePath)
-			.then((templateContent: string) => this.app.vault.create(filePath, templateContent))
+			.then((templateContent: string) => this.app.vault.create(normalisedFilePath, templateContent))
 			.then(() => Promise.resolve('Note created'))
 	}
 
@@ -41,7 +43,8 @@ export class ObsidianAdapter {
 	}
 
 	private loadTemplateContent(templateFilePath: string): Promise<string> {
-		const templateFile = this.app.vault.getFileByPath(templateFilePath)
+		const normalisedTemplatePath = normalizePath(templateFilePath)
+		const templateFile = this.app.vault.getFileByPath(normalisedTemplatePath)
 		return templateFile ? this.app.vault.read(templateFile) : Promise.reject('Template file not found')
 	}
 }

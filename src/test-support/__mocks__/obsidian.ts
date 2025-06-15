@@ -66,3 +66,9 @@ export function getModifiers(e: KeyboardEvent): string | null {
 	if (e.shiftKey) modifiers.push('Shift')
 	return modifiers.length > 0 ? modifiers.join('+') : null
 }
+
+// Mock normalizePath function
+export function normalizePath(path: string): string {
+	// Simple mock implementation that normalizes path separators
+	return path.replace(/\\/g, '/')
+}
