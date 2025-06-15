@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs'
+import { execSync } from 'child_process'
 
 // Get bump type from command line argument
 const bumpType = process.argv[2]?.toLowerCase()
@@ -40,4 +41,16 @@ let versions = JSON.parse(readFileSync('versions.json', 'utf8'))
 versions[newVersion] = minAppVersion
 writeFileSync('versions.json', JSON.stringify(versions, null, '\t'))
 
-console.log(`Version bumped to ${newVersion}`)
+// Create git tag for the new version
+try {
+	execSync(`git add package.json manifest.json versions.json`)
+	execSync(`git commit -m "Bump version to ${newVersion}"`)
+	execSync(`git tag v${newVersion}`)
+	console.log(`✅ Version bumped to ${newVersion}`)
+	console.log(`✅ Git tag v${newVersion} created`)
+	console.log(`📝 To push: git push origin main --tags`)
+	console.log(`🚀 To release: Create a release on GitHub using tag v${newVersion}`)
+} catch (error) {
+	console.error('❌ Git operations failed:', error.message)
+	console.log(`📝 Files updated to version ${newVersion}, but git tag creation failed`)
+}
