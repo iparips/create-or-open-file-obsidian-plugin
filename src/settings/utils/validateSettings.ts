@@ -10,7 +10,7 @@ export interface FieldValidation {
 	rules: ValidationRule[]
 }
 
-export const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
+const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
 	return [
 		{
 			field: 'commandName',
@@ -45,7 +45,7 @@ export const buildFieldValidations = (command: CommandConfig): FieldValidation[]
 	]
 }
 
-export const validateCommand = (command: unknown, index: number): ValidationError[] => {
+const validateCommand = (command: unknown, index: number): ValidationError[] => {
 	if (!isCommandSettings(command)) {
 		return [
 			{

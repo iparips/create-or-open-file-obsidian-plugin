@@ -19,10 +19,10 @@ Please note, I work on this during my spare time of which I have very little. If
 Create a new shopping list for the current week:
 
 ```yaml
-Command name: "Shopping list"
-Template file path: "00 - Meta/Templates/shopping-list-template.md"
-Destination folder pattern: "01 - Journal/Weekly/Week-{week}"
-File name: "shopping-list.md"
+Command name: 'Shopping list'
+Template file path: '00 - Meta/Templates/shopping-list-template.md'
+Destination folder pattern: '01 - Journal/Weekly/Week-{week}'
+File name: 'shopping-list.md'
 ```
 
 This will create: `01 - Journal/Weekly/Week-23/shopping-list.md` with the template's contents.
@@ -33,9 +33,9 @@ Create tomorrow's daily note automatically:
 
 ```yaml
 Command name: "Tomorrow's Daily Note"
-Destination folder: "01 - Journal/Weekly/Week-{week}"
-File name: "{month}-{day}-{dow}.md"
-Time shift: "+1 day"
+Destination folder: '01 - Journal/Weekly/Week-{week}'
+File name: '{month}-{day}-{dow}.md'
+Time shift: '+1 day'
 ```
 
 This will create: `01 - Journal/Weekly/Week-23/06-07-Sat.md` using tomorrow's date.
@@ -44,25 +44,27 @@ This will create: `01 - Journal/Weekly/Week-23/06-07-Sat.md` using tomorrow's da
 
 Use these placeholders in both destination folder paths and file names:
 
-| Placeholder | Example | Description |
-|-------------|---------|-------------|
-| `{year}` | 2025 | 4-digit year |
-| `{month}` | 06 | 2-digit month |
-| `{day}` | 07 | 2-digit day |
-| `{date}` | 2025-06-07 | ISO date format |
-| `{time}` | 14-30-45 | Time in HH-mm-ss format |
-| `{week}` | 23 | ISO week number |
-| `{dow}` | Sat | Day of week abbreviation |
+| Placeholder | Example    | Description              |
+| ----------- | ---------- | ------------------------ |
+| `{year}`    | 2025       | 4-digit year             |
+| `{month}`   | 06         | 2-digit month            |
+| `{day}`     | 07         | 2-digit day              |
+| `{date}`    | 2025-06-07 | ISO date format          |
+| `{time}`    | 14-30-45   | Time in HH-mm-ss format  |
+| `{week}`    | 23         | ISO week number          |
+| `{dow}`     | Sat        | Day of week abbreviation |
 
 ## Time Shifts
 
 Apply time shifts to adjust the date used for pattern resolution:
 
 Format: `+N unit` or `-N unit`
+
 - N: number
 - unit: day(s), week(s), month(s), year(s)
 
 Examples:
+
 - `+1 day` → Use tomorrow's date
 - `-2 weeks` → Use date from 2 weeks ago
 - `+3 months` → Use date from 3 months in the future
