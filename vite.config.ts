@@ -7,7 +7,12 @@ export default defineConfig({
 		},
 	},
 	test: {
-		environment: 'jsdom',
+		environment: 'happy-dom',
+		testTimeout: 10000,
+		hookTimeout: 10000,
+		teardownTimeout: 5000,
+		globals: true,
+		passWithNoTests: true,
 	},
 	optimizeDeps: {
 		exclude: ['obsidian'],

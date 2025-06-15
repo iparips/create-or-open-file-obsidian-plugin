@@ -1,8 +1,21 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { processPattern } from '../patternParser'
+import { formatInTimeZone } from 'date-fns-tz'
+
+// Mock the date-fns module to make its `format` function timezone-aware for tests.
+vi.mock('date-fns', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('date-fns')>()
+	return {
+		...actual,
+		// Replace the original `format` with our custom stub
+		format: (date: Date, formatString: string): string => {
+			return formatInTimeZone(date, 'UTC', formatString)
+		},
+	}
+})
 
 describe('processPattern', () => {
-	const testDate = new Date('2025-06-07T14:30:45.123+10:00') // Saturday, June 7, 2025, 2:30:45 PM AEST
+	const testDate = new Date('2025-06-07T14:30:45.123Z') // 'Z' means UTC
 
 	describe('basic placeholders (no time shift)', () => {
 		it('should replace {year} with formatted year', () => {

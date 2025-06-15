@@ -14,5 +14,6 @@
 - [x] Add test for exporting config to file
 - [x] Improve the date pattern parsing
 - [x] Improve user docs
-- [ ] Review validateSettings.test.ts
+- [x] Review validateSettings.test.ts
+- [x] Add Github actions based build
 - [ ] Release
