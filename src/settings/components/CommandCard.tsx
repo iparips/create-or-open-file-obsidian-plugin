@@ -48,7 +48,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 		<div className="command-container">
 			<div className="settings-grid">
 				<SettingInput
-					name="Command Name"
+					name="Command name"
 					description="The name will appear in Obsidian command palette"
 					placeholder="Enter command name"
 					value={command.commandName}
@@ -58,7 +58,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 				/>
 
 				<SettingInput
-					name="Destination Folder"
+					name="Destination folder"
 					description="Path / pattern for destination folder"
 					placeholder="01 - Journal/Weekly/Week-{week}"
 					value={command.destinationFolderPattern}
@@ -68,7 +68,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 				/>
 
 				<SettingInput
-					name="File Name"
+					name="File name"
 					description="Path / pattern for the file name"
 					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
@@ -78,7 +78,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 				/>
 
 				<SettingInput
-					name="Template File"
+					name="Template file"
 					description="Optional path to the template file"
 					placeholder="00 - Meta/Templates/shopping-list-template.md"
 					value={command.templateFilePath}

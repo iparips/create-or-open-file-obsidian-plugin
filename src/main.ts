@@ -45,7 +45,6 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 	private unregisterCommands() {
 		// Find and remove all commands belonging to this plugin
-		// Wrap in try-catch to handle other plugins' checkCallback errors
 		const allCommands = this.app.commands.listCommands()
 		const myCommands = allCommands.filter((cmd) => cmd.id.startsWith(this.manifest.id))
 		myCommands.forEach((cmd) => {

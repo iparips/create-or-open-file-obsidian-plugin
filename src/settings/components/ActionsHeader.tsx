@@ -27,11 +27,11 @@ export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettin
 
 	return (
 		<div className="button-container">
-			<button onClick={onAddCommand}>Add Command</button>
+			<button onClick={onAddCommand}>Add command</button>
 			<button onClick={openFilePicker} disabled={loading}>
-				{loading ? 'Loading...' : 'Import Settings'}
+				{loading ? 'Loading...' : 'Import settings'}
 			</button>
-			<button onClick={exportSettings}>Export Settings</button>
+			<button onClick={exportSettings}>Export settings</button>
 		</div>
 	)
 }
