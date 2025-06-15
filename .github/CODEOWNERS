@@ -1,0 +1,10 @@
+# This file defines who owns different parts of the codebase
+# The person listed here will be automatically requested for review on PRs
+
+# Global rule - iparips owns everything
+* @iparips
+
+# You can add specific rules for different file types if needed:
+# *.md @iparips
+# src/ @iparips
+# *.json @iparips 
