@@ -67,6 +67,16 @@ Examples:
 - `-2 weeks` → Use date from 2 weeks ago
 - `+3 months` → Use date from 3 months in the future
 
+## Support the Project
+
+If you find this plugin helpful, consider supporting its development:
+
+- ⭐ Star the project on GitHub
+- 💖 [Sponsor on GitHub](https://github.com/sponsors/iparips)
+- 🐛 Report bugs and suggest features
+
+Your support helps me dedicate more time to improving this plugin and developing new features!
+
 ## Other documentation
 
 - [TODO](docs/TODO.md) - Planned features and improvements

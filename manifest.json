@@ -5,7 +5,7 @@
 	"minAppVersion": "0.15.0",
 	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"author": "Ilya Paripsa",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"authorUrl": "https://github.com/iparips",
+	"fundingUrl": "https://github.com/sponsors/iparips",
 	"isDesktopOnly": false
 }
