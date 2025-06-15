@@ -2,16 +2,20 @@ import { App, PluginSettingTab, Notice } from 'obsidian'
 import React from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 
-import type MyPlugin from '../main'
+import type CreateOrOpenFilePlugin from '../main'
 import { SettingsComponent } from './components'
-import { PluginSettings } from '../types'
+import { CreateOrOpenFilePluginSettings } from '../types'
 import { validateSettings } from './utils/validation/validateSettings'
 
-export class SettingsTab extends PluginSettingTab {
-	updatePluginSettingsCallback: (newSettings: PluginSettings) => Promise<void>
+export class CreateOrOpenFileSettingsTab extends PluginSettingTab {
+	updatePluginSettingsCallback: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	private root: Root | null = null
 
-	constructor(app: App, plugin: MyPlugin, updateSettingsCallback: (newSettings: PluginSettings) => Promise<void>) {
+	constructor(
+		app: App,
+		plugin: CreateOrOpenFilePlugin,
+		updateSettingsCallback: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>,
+	) {
 		super(app, plugin)
 		this.updatePluginSettingsCallback = updateSettingsCallback
 	}
@@ -23,14 +27,14 @@ export class SettingsTab extends PluginSettingTab {
 		this.root = createRoot(containerEl)
 		this.root.render(
 			React.createElement(SettingsComponent, {
-				settings: (this.plugin as MyPlugin).settings, // Get current settings from plugin
+				settings: (this.plugin as CreateOrOpenFilePlugin).settings, // Get current settings from plugin
 				updatePluginSettings: this.updatePluginSettingsCallback,
 			}),
 		)
 	}
 
 	hide(): void {
-		const validationResult = validateSettings((this.plugin as MyPlugin).settings)
+		const validationResult = validateSettings((this.plugin as CreateOrOpenFilePlugin).settings)
 		if (!validationResult.isValid) {
 			new Notice(`Please fill out the required settings for the new command to work`, 10000)
 		}

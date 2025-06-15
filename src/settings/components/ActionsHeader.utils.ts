@@ -1,10 +1,10 @@
-import type { PluginSettings } from '../../types'
+import type { CreateOrOpenFilePluginSettings } from '../../types'
 import type { SelectedFiles } from '../../types'
 import { validateSettings } from '../utils/validation/validateSettings'
 
 export const processImportedSettings = async (
 	{ filesContent }: SelectedFiles<string>,
-	onSettingsImported: (settings: PluginSettings) => Promise<void>,
+	onSettingsImported: (settings: CreateOrOpenFilePluginSettings) => Promise<void>,
 ) => {
 	try {
 		const parsedData = JSON.parse(filesContent[0].content)
@@ -16,7 +16,7 @@ export const processImportedSettings = async (
 			return
 		}
 
-		await onSettingsImported(parsedData as PluginSettings)
+		await onSettingsImported(parsedData as CreateOrOpenFilePluginSettings)
 	} catch (err: unknown) {
 		alert('Import failed: Check your file and try again')
 	}

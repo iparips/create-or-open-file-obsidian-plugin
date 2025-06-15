@@ -1,4 +1,4 @@
-import type { CommandConfig, PluginSettings } from '../../../types'
+import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
 
 export function isString(value: unknown): value is string {
 	return typeof value === 'string'
@@ -22,7 +22,7 @@ export function isCommandSettings(value: unknown): value is CommandConfig {
 	)
 }
 
-export function isImportedSettings(value: unknown): value is PluginSettings {
+export function isImportedSettings(value: unknown): value is CreateOrOpenFilePluginSettings {
 	if (!isObject(value)) return false
 
 	const { commandConfigs } = value

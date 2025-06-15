@@ -2,11 +2,11 @@ import React from 'react'
 import { saveAs } from 'file-saver'
 import { useFilePicker } from 'use-file-picker'
 import { processImportedSettings } from './ActionsHeader.utils'
-import type { SelectedFiles, PluginSettings } from '../../types'
+import type { SelectedFiles, CreateOrOpenFilePluginSettings } from '../../types'
 
 interface ActionsHeaderProps {
-	settings: PluginSettings
-	onSettingsImported: (settings: PluginSettings) => Promise<void>
+	settings: CreateOrOpenFilePluginSettings
+	onSettingsImported: (settings: CreateOrOpenFilePluginSettings) => Promise<void>
 	onAddCommand: () => void
 }
 

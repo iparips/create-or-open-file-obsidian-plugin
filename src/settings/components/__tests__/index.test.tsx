@@ -3,7 +3,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { SettingsComponent } from '../index'
-import type { CommandConfig, PluginSettings } from '../../../types'
+import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
 
 // Mock the child components to isolate our tests
 vi.mock('../ActionsHeader', () => ({
@@ -11,8 +11,8 @@ vi.mock('../ActionsHeader', () => ({
 		onSettingsImported,
 		onAddCommand,
 	}: {
-		settings: PluginSettings
-		onSettingsImported: (settings: PluginSettings) => void
+		settings: CreateOrOpenFilePluginSettings
+		onSettingsImported: (settings: CreateOrOpenFilePluginSettings) => void
 		onAddCommand: () => void
 	}) => (
 		<div data-testid="actions-header">
@@ -67,7 +67,7 @@ vi.mock('../CommandCard', () => ({
 
 describe('SettingsComponent', () => {
 	const mockSaveSettings = vi.fn()
-	let mockSettings: PluginSettings
+	let mockSettings: CreateOrOpenFilePluginSettings
 
 	beforeEach(() => {
 		vi.clearAllMocks()

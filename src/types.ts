@@ -28,6 +28,6 @@ export interface CommandConfig {
 	timeShift?: string
 }
 
-export interface PluginSettings {
+export interface CreateOrOpenFilePluginSettings {
 	commandConfigs: CommandConfig[]
 }

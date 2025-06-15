@@ -1,23 +1,23 @@
 import { Plugin } from 'obsidian'
-import { SettingsTab } from './settings/SettingsTab'
+import { CreateOrOpenFileSettingsTab } from './settings/CreateOrOpenFileSettingsTab'
 import { DEFAULT_SETTINGS } from './settings/constants'
 import { createOrOpenFileCommandCallback } from './command/commandCallback'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
-import { CommandConfig, PluginSettings } from './types'
+import { CommandConfig, CreateOrOpenFilePluginSettings } from './types'
 
-export default class MyPlugin extends Plugin {
-	settings!: PluginSettings
+export default class CreateOrOpenFilePlugin extends Plugin {
+	settings!: CreateOrOpenFilePluginSettings
 	private isInitialLoad = true
 
 	async onload() {
 		this.settings = await this.loadSettingsFromFile()
 		this.registerCommands(this.settings.commandConfigs)
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(new SettingsTab(this.app, this, this.updateSettings.bind(this)))
+		this.addSettingTab(new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)))
 	}
 
-	private async loadSettingsFromFile(): Promise<PluginSettings> {
-		const data: PluginSettings = await this.loadData()
+	private async loadSettingsFromFile(): Promise<CreateOrOpenFilePluginSettings> {
+		const data: CreateOrOpenFilePluginSettings = await this.loadData()
 		return Object.assign({}, DEFAULT_SETTINGS, data)
 	}
 
@@ -53,7 +53,7 @@ export default class MyPlugin extends Plugin {
 		})
 	}
 
-	async updateSettings(newSettings: PluginSettings): Promise<void> {
+	async updateSettings(newSettings: CreateOrOpenFilePluginSettings): Promise<void> {
 		this.settings = newSettings
 		await this.saveData(newSettings) // write to data.json
 		this.isInitialLoad = false // Mark that we're no longer in initial load

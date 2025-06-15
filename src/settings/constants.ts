@@ -1,6 +1,6 @@
-import { PluginSettings } from '../types'
+import { CreateOrOpenFilePluginSettings } from '../types'
 
-export const DEFAULT_SETTINGS: PluginSettings = {
+export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 	commandConfigs: [
 		{
 			commandName: 'eg: Weekly shopping list',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import type { CommandConfig, PluginSettings } from '../../types'
+import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
 
 import { ActionsHeader } from './ActionsHeader'
 import { CommandCard } from './CommandCard'
@@ -8,12 +8,12 @@ import { validateSettings } from '../utils/validation/validateSettings'
 import { ValidationResult } from '../utils/validation/validationResult'
 
 interface SettingsProps {
-	settings: PluginSettings
-	updatePluginSettings: (newSettings: PluginSettings) => Promise<void>
+	settings: CreateOrOpenFilePluginSettings
+	updatePluginSettings: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 }
 
 export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsProps) => {
-	const [localSettings, setLocalSettings] = useState<PluginSettings>(settings)
+	const [localSettings, setLocalSettings] = useState<CreateOrOpenFilePluginSettings>(settings)
 	const [validationResult, setValidationResult] = useState<ValidationResult>(new ValidationResult([]))
 
 	const updateCommand = async (index: number, commandKey: keyof CommandConfig, newValue: string) => {
@@ -46,7 +46,7 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 		await updatePluginSettings(newSettings)
 	}
 
-	const handleSettingsImported = async (importedSettings: PluginSettings) => {
+	const handleSettingsImported = async (importedSettings: CreateOrOpenFilePluginSettings) => {
 		setLocalSettings(importedSettings)
 		await updatePluginSettings(importedSettings)
 	}
