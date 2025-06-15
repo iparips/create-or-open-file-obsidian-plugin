@@ -13,6 +13,6 @@
 - [x] Add test for importing config from file
 - [x] Add test for exporting config to file
 - [x] Improve the date pattern parsing
+- [x] Improve user docs
 - [ ] Review validateSettings.test.ts
-- [ ] Improve user docs
 - [ ] Release
