@@ -1,0 +1,18 @@
+# Todo
+
+- [x] Proof of concept note creator with hardcoded file paths
+- [x] Hook up configuration
+- [x] Convert settings panel to React
+- [x] Add config validations
+  - [x] That settings > file name ends with MD
+  - [x] That new command that was added has been configured
+  - [x] That template file has .md extension
+  - [x] Apply same validations to configuration imported from file
+- [x] Make configuration responsive
+- [x] Move processPattern method from main.ts
+- [x] Add test for importing config from file
+- [x] Add test for exporting config to file
+- [x] Improve the date pattern parsing
+- [ ] Review validateSettings.test.ts
+- [ ] Improve user docs
+- [ ] Release
