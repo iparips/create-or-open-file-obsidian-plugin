@@ -1,15 +1,15 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { validateSettings } from '../validateSettings'
-import { ValidationResult } from '../validationResult'
-import type { CommandConfig } from '../../../types'
+import { validateSettings } from '../../validation/validateSettings'
+import { ValidationResult } from '../../validation/validationResult'
+import type { CommandConfig } from '../../../../types'
 
 // Mock the type guards
-vi.mock('../typeGuards', () => ({
+vi.mock('../../validation/typeGuards', () => ({
 	isCommandSettings: vi.fn(),
 	isImportedSettings: vi.fn(),
 }))
 
-import { isCommandSettings, isImportedSettings } from '../typeGuards'
+import { isCommandSettings, isImportedSettings } from '../../validation/typeGuards'
 
 function assertResultIsValid(result: ValidationResult) {
 	expect(result).toBeInstanceOf(ValidationResult)

@@ -1,5 +1,5 @@
-import type { CommandConfig, ValidationError } from '../../types'
-import { validateField, VALIDATION_RULES, type ValidationRule } from './validateField'
+import type { CommandConfig, ValidationError } from '../../../types'
+import { validateField, VALIDATIONS, type ValidationRule } from './validateField'
 import { isCommandSettings, isImportedSettings } from './typeGuards'
 import { ValidationResult } from './validationResult'
 
@@ -16,25 +16,25 @@ const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
 			field: 'commandName',
 			fieldDisplayName: 'Command Name',
 			value: command.commandName,
-			rules: [VALIDATION_RULES.required],
+			rules: [VALIDATIONS.required],
 		},
 		{
 			field: 'templateFilePath',
 			fieldDisplayName: 'Template File',
 			value: command.templateFilePath,
-			rules: [VALIDATION_RULES.endsWithMd],
+			rules: [VALIDATIONS.endsWithMd],
 		},
 		{
 			field: 'destinationFolderPattern',
 			fieldDisplayName: 'Destination Folder',
 			value: command.destinationFolderPattern,
-			rules: [VALIDATION_RULES.required],
+			rules: [VALIDATIONS.required],
 		},
 		{
 			field: 'fileNamePattern',
 			fieldDisplayName: 'File Name',
 			value: command.fileNamePattern,
-			rules: [VALIDATION_RULES.requiredAndEndsWithMd],
+			rules: [VALIDATIONS.requiredAndEndsWithMd],
 		},
 		{
 			field: 'timeShift',

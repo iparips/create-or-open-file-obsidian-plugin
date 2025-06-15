@@ -1,4 +1,4 @@
-import type { CommandConfig, PluginSettings } from '../../types'
+import type { CommandConfig, PluginSettings } from '../../../types'
 
 export function isString(value: unknown): value is string {
 	return typeof value === 'string'

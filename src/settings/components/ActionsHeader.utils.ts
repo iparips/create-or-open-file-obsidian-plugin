@@ -1,6 +1,6 @@
 import type { PluginSettings } from '../../types'
 import type { SelectedFiles } from '../../types'
-import { validateSettings } from '../utils/validateSettings'
+import { validateSettings } from '../utils/validation/validateSettings'
 
 export const processImportedSettings = async (
 	{ filesContent }: SelectedFiles<string>,

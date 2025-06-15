@@ -4,8 +4,8 @@ import type { CommandConfig, PluginSettings } from '../../types'
 import { ActionsHeader } from './ActionsHeader'
 import { CommandCard } from './CommandCard'
 import { ValidationSummary } from './ValidationSummary'
-import { validateSettings } from '../utils/validateSettings'
-import { ValidationResult } from '../utils/validationResult'
+import { validateSettings } from '../utils/validation/validateSettings'
+import { ValidationResult } from '../utils/validation/validationResult'
 
 interface SettingsProps {
 	settings: PluginSettings

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { ValidationResult } from '../utils/validationResult'
+import type { ValidationResult } from '../utils/validation/validationResult'
 
 interface ErrorSummaryProps {
 	validationResult: ValidationResult

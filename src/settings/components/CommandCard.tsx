@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { CommandConfig, ValidationError } from '../../types'
 import { SettingInput } from './SettingInput'
-import { validateField, VALIDATION_RULES, type ValidationRule } from '../utils/validateField'
+import { validateField, VALIDATIONS, type ValidationRule } from '../utils/validation/validateField'
 
 interface ValidationErrors {
 	commandName?: string
@@ -53,7 +53,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder="Enter command name"
 					value={command.commandName}
 					onChange={(value) => onUpdate(index, 'commandName', value)}
-					onBlur={(value) => validate('commandName', value, [VALIDATION_RULES.required])}
+					onBlur={(value) => validate('commandName', value, [VALIDATIONS.required])}
 					error={displayErrors.commandName}
 				/>
 
@@ -63,7 +63,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder="01 - Journal/Weekly/Week-{week}"
 					value={command.destinationFolderPattern}
 					onChange={(value) => onUpdate(index, 'destinationFolderPattern', value)}
-					onBlur={(value) => validate('destinationFolderPattern', value, [VALIDATION_RULES.required])}
+					onBlur={(value) => validate('destinationFolderPattern', value, [VALIDATIONS.required])}
 					error={displayErrors.destinationFolderPattern}
 				/>
 
@@ -73,7 +73,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
-					onBlur={(value) => validate('fileNamePattern', value, [VALIDATION_RULES.requiredAndEndsWithMd])}
+					onBlur={(value) => validate('fileNamePattern', value, [VALIDATIONS.requiredAndEndsWithMd])}
 					error={displayErrors.fileNamePattern}
 				/>
 
@@ -83,7 +83,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder="00 - Meta/Templates/shopping-list-template.md"
 					value={command.templateFilePath}
 					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
-					onBlur={(value) => validate('templateFilePath', value, [VALIDATION_RULES.endsWithMd])}
+					onBlur={(value) => validate('templateFilePath', value, [VALIDATIONS.endsWithMd])}
 					error={displayErrors.templateFilePath}
 				/>
 

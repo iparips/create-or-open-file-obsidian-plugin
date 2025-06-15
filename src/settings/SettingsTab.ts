@@ -5,7 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import type MyPlugin from '../main'
 import { SettingsComponent } from './components'
 import { PluginSettings } from '../types'
-import { validateSettings } from './utils/validateSettings'
+import { validateSettings } from './utils/validation/validateSettings'
 
 export class SettingsTab extends PluginSettingTab {
 	updatePluginSettingsCallback: (newSettings: PluginSettings) => Promise<void>

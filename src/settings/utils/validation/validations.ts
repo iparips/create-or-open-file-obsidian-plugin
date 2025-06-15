@@ -1,6 +1,6 @@
 export type ValidationRule = (value?: string) => string | undefined
 
-export const VALIDATION_RULES = {
+export const VALIDATIONS = {
 	required: (value?: string) => (!value || value.trim() === '' ? 'This field is mandatory' : undefined),
 	endsWithMd: (value?: string) =>
 		value && value.trim() !== '' && !value.endsWith('.md') ? 'File name should end with .md extension' : undefined,
@@ -9,9 +9,4 @@ export const VALIDATION_RULES = {
 		if (!value.endsWith('.md')) return 'File name should end with .md extension'
 		return undefined
 	},
-}
-
-export const validateField = (rules: ValidationRule[], value?: string): string | undefined => {
-	const firstApplicableRule = rules.find((rule) => rule(value))
-	return firstApplicableRule ? firstApplicableRule(value) : undefined
 }

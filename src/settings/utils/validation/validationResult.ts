@@ -1,4 +1,4 @@
-import type { ValidationError } from '../../types'
+import type { ValidationError } from '../../../types'
 
 export class ValidationResult {
 	public readonly isValid: boolean
