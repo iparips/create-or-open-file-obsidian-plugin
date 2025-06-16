@@ -1,7 +1,7 @@
 {
 	"id": "open-or-create-file-command",
 	"name": "Create or Open File",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"minAppVersion": "0.15.0",
 	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"author": "Ilya Paripsa",
