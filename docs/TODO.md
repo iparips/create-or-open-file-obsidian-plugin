@@ -16,6 +16,6 @@
 - [x] Improve user docs
 - [x] Review validateSettings.test.ts
 - [x] Add Github actions based build
-- [ ] Remove v from version tags
-- [ ] Next Monday note
-- [ ] Release
+- [x] Remove v from version tags
+- [x] Release
+- [ ] Add time shift that would support format like "Next Monday"
