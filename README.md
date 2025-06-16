@@ -1,8 +1,8 @@
-# Create or Open File - Obsidian Plugin
+# Create or open file plugin
 
-This Obsidian plugin helps you create and open files based on predefined patterns, making it easier to maintain your daily notes, weekly plans, and other regularly used documents. It reduces cognitive load by automating the creation of files you use frequently.
+This plugin helps create and open files based on predefined patterns, making it easier to maintain daily notes, weekly plans, and other regularly used documents. It reduces cognitive load by automating the creation of frequently used files.
 
-Please note, I work on this during my spare time of which I have very little. If you find any issues feel free to raise a PR, but note it might take me some time to get back to you.
+Please note, I work on this during my spare time of which I have very little. If there are any issues feel free to raise a PR, but note it might take me some time to respond.
 
 ## Features
 
@@ -12,15 +12,15 @@ Please note, I work on this during my spare time of which I have very little. If
 - Customizable command names for quick access
 - Import and Export of custom command configuration as json files
 
-## Examples
+## How to configure the plugin
 
-1. Go to Obsidian > Settings > Community Plugins > Create or Open File
+1. Go to Settings > Community Plugins > Create or Open File
 2. Click on Settings cog icon
 3. Click "Add command" button
 4. Supply configuration below to configure your new command
-5. Once created, the command can be executed by opening Obsidian Command Palette, typing the command name, and pressing Enter.
+5. Once created, the command can be executed by opening Command Palette, typing the command name, and pressing Enter.
 
-### Example 1: Weekly Shopping List
+### Example 1: Weekly shopping list
 
 Add configuration below to create a weekly Shopping list command.
 
@@ -33,7 +33,7 @@ File name: 'shopping-list.md'
 
 Executing the command will create: `01 - Journal/Weekly/Week-23/shopping-list.md` with the template's contents.
 
-### Example 2: Tomorrow's Daily Note
+### Example 2: Tomorrow's daily note
 
 Add configuration below to create a weekly Shopping list command.
 
@@ -46,7 +46,7 @@ Time shift: '+1 day'
 
 Executing the command will create: `01 - Journal/Weekly/Week-23/06-07-Sat.md` using tomorrow's date.
 
-## Supported Placeholders
+## Supported placeholders
 
 Use these placeholders in both destination folder paths and file names:
 
@@ -60,7 +60,7 @@ Use these placeholders in both destination folder paths and file names:
 | `{week}`    | 23         | ISO week number          |
 | `{dow}`     | Sat        | Day of week abbreviation |
 
-## Time Shifts
+## Time shifts
 
 Apply time shifts to adjust the date used for pattern resolution:
 
@@ -75,7 +75,7 @@ Examples:
 - `-2 weeks` → Use date from 2 weeks ago
 - `+3 months` → Use date from 3 months in the future
 
-## Support the Project
+## Support the project
 
 If you find this plugin helpful, consider supporting its development:
 
