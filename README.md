@@ -14,9 +14,15 @@ Please note, I work on this during my spare time of which I have very little. If
 
 ## Examples
 
+1. Go to Obsidian > Settings > Community Plugins > Create or Open File
+2. Click on Settings cog icon
+3. Click "Add command" button
+4. Supply configuration below to configure your new command
+5. Once created, the command can be executed by opening Obsidian Command Palette, typing the command name, and pressing Enter.
+
 ### Example 1: Weekly Shopping List
 
-Create a new shopping list for the current week:
+Add configuration below to create a weekly Shopping list command.
 
 ```yaml
 Command name: 'Shopping list'
@@ -25,11 +31,11 @@ Destination folder pattern: '01 - Journal/Weekly/Week-{week}'
 File name: 'shopping-list.md'
 ```
 
-This will create: `01 - Journal/Weekly/Week-23/shopping-list.md` with the template's contents.
+Executing the command will create: `01 - Journal/Weekly/Week-23/shopping-list.md` with the template's contents.
 
 ### Example 2: Tomorrow's Daily Note
 
-Create tomorrow's daily note automatically:
+Add configuration below to create a weekly Shopping list command.
 
 ```yaml
 Command name: "Tomorrow's Daily Note"
@@ -38,7 +44,7 @@ File name: '{month}-{day}-{dow}.md'
 Time shift: '+1 day'
 ```
 
-This will create: `01 - Journal/Weekly/Week-23/06-07-Sat.md` using tomorrow's date.
+Executing the command will create: `01 - Journal/Weekly/Week-23/06-07-Sat.md` using tomorrow's date.
 
 ## Supported Placeholders
 
