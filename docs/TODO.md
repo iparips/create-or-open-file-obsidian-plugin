@@ -16,4 +16,6 @@
 - [x] Improve user docs
 - [x] Review validateSettings.test.ts
 - [x] Add Github actions based build
+- [ ] Remove v from version tags
+- [ ] Next Monday note
 - [ ] Release
