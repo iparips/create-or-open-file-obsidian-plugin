@@ -3,7 +3,7 @@
 	"name": "Create or Open File",
 	"version": "0.1.8",
 	"minAppVersion": "0.15.0",
-	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
+	"description": "Create custom commands that open or create files using configurable patterns and templates.",
 	"author": "Ilya Paripsa",
 	"authorUrl": "https://github.com/iparips",
 	"fundingUrl": "https://github.com/sponsors/iparips",
