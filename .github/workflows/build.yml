@@ -22,7 +22,7 @@ jobs:
 
       - name: Install Bun and timezone data
         run: |
-          apk add --no-cache curl unzip bash tzdata
+          apk add --no-cache curl unzip bash github-cli
           curl -fsSL https://bun.sh/install | bash
           export PATH="$HOME/.bun/bin:$PATH"
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
@@ -36,23 +36,8 @@ jobs:
       - name: Build with Bun
         run: bun run build:no-tests
 
-      - name: Create release archive
-        if: github.event_name == 'release'
-        run: |
-          mkdir -p release
-          cp main.js release/
-          cp manifest.json release/
-          cp styles.css release/
-          cd release
-          zip -r ../create-or-open-file-obsidian-plugin.zip .
-
       - name: Upload to release
         if: github.event_name == 'release'
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./create-or-open-file-obsidian-plugin.zip
-          asset_name: create-or-open-file-obsidian-plugin.zip
-          asset_content_type: application/zip
+        run: gh release upload '${{ github.event.release.tag_name }}' main.js manifest.json styles.css --clobber
