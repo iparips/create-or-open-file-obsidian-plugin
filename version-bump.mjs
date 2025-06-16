@@ -45,7 +45,7 @@ writeFileSync('versions.json', JSON.stringify(versions, null, '\t'))
 try {
 	execSync(`git add package.json manifest.json versions.json`)
 	execSync(`git commit -m "Bump version to ${newVersion}"`)
-	execSync(`git tag v${newVersion}`)
+	execSync(`git tag ${newVersion}`)
 	console.log(`✅ Version bumped to ${newVersion}`)
 	console.log(`✅ Git tag v${newVersion} created`)
 	console.log(`📝 To push: git push origin main --tags`)
