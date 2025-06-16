@@ -1,6 +1,6 @@
-# Create or open file plugin
+# Create or open file Obsidian plugin
 
-This plugin helps create and open files based on predefined patterns, making it easier to maintain daily notes, weekly plans, and other regularly used documents. It reduces cognitive load by automating the creation of frequently used files.
+This plugin helps create and open files in Obsidian based on predefined patterns, making it easier to maintain daily notes, weekly plans, and other regularly used documents. It reduces cognitive load by automating the creation of frequently used files.
 
 Please note, I work on this during my spare time of which I have very little. If there are any issues feel free to raise a PR, but note it might take me some time to respond.
 
@@ -14,7 +14,7 @@ Please note, I work on this during my spare time of which I have very little. If
 
 ## How to configure the plugin
 
-1. Go to Settings > Community Plugins > Create or Open File
+1. Go to Obsidian > Settings > Community Plugins > Create or Open File
 2. Click on Settings cog icon
 3. Click "Add command" button
 4. Supply configuration below to configure your new command
