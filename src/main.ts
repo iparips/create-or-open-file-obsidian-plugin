@@ -33,10 +33,8 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		}
 
 		commandConfigs.forEach((config: CommandConfig, index: number) => {
-			// Don't include manifest ID - Obsidian adds it automatically
-			const commandId = `cmd-${index}`
 			this.addCommand({
-				id: commandId,
+				id: `${index}`,
 				name: config.commandName,
 				callback: createOrOpenFileCommandCallback(new ObsidianAdapter(this.app), config),
 			})
